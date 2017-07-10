@@ -9,6 +9,7 @@ public abstract class Worker extends Person
 {
     private String numberAcount;
     private String password;
+	 private String melak;
 
     public String getNumberAcount()
     {
