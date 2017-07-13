@@ -1,10 +1,14 @@
 package com.hit;
 
 import com.google.gson.Gson;
-import com.hit.customer.VIPCustomer;
+import customer.VIPCustomer;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -17,13 +21,13 @@ public class Report {
     private JSONParser parser;
     private JSONObject json;
     private Gson gson = new Gson();
-    private int g;
+    private PrintWriter out;
 
-    public Report(Branch branch) {
+    public Report(Branch branch)  {
         this.branch = branch;
     }
 
-    public Report(){}
+    public Report() {}
 
     /**
      * shows number of sales in the specific branch
@@ -38,6 +42,7 @@ public class Report {
             System.out.println(json.getMessage());
         }
 
+        writeFile(json.toString());
         System.out.println(json);//send to file...
     }
 
@@ -48,16 +53,29 @@ public class Report {
     public void showReportOfProduct(Product product){
         //convert java object to JSON format
         String stringJson = gson.toJson(product);
-
         System.out.println(stringJson);//send to file...
+        writeFile(stringJson);
     }
 
     /**
      * shows the vip customers
-     * @return list of the vip com.hit.customer
+     * @return list of the vip customer
      */
     public void getVipCustomers(VIPCustomer vip) {
         String stringJson = gson.toJson(vip.getVipCustomers());
         System.out.println(stringJson);//send to file
+        writeFile(stringJson);
+    }
+
+    public void writeFile(String report){
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\dev\\java\\filename.txt", true)));
+            out.println(report);
+            out.flush();
+        } catch (IOException ex) {
+            // report
+        } finally {
+            out.close();
+        }
     }
 }

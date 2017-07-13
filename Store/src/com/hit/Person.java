@@ -16,7 +16,6 @@ public abstract class Person
         Phone = phone;
     }
 
-
     @Override
     public String toString()
     {

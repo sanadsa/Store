@@ -28,10 +28,6 @@ public class Product {
         this.id = id;
     }
 
-
-
-
-
     public productType getName() {
         return name;
     }
