@@ -1,5 +1,7 @@
 package com.hit.customer;
 
+import com.hit.Branch;
+
 import java.util.ArrayList;
 import java.util.List;
 

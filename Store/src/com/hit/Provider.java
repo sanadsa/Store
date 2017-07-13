@@ -77,13 +77,13 @@ public class Provider
     {
         try
         {
-            for (Worker workerobj : storeManager.HifaStore.getWorkerInInventory())
+            for (Worker workerobj : storeManager.HifaStore.getWorkerInBranch())
             {
                 DataBaseHiafaforWrite.write(workerobj.toString());
                 DataBaseHiafaforWrite.newLine();
                 DataBaseHiafaforWrite.flush();
             }
-            for (Worker workerobj : storeManager.TLVStore.getWorkerInInventory())
+            for (Worker workerobj : storeManager.TLVStore.getWorkerInBranch())
             {
                 DataBaseTLVForWrite.write(workerobj.toString());
                 DataBaseTLVForWrite.newLine();

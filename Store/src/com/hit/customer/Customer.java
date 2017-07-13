@@ -1,5 +1,6 @@
 package com.hit.customer;
 
+import com.hit.Branch;
 import com.hit.Person;
 import com.hit.Product;
 
@@ -9,7 +10,6 @@ public abstract class Customer extends Person
     {
         super(name, id, phone, branch);
     }
-    public Customer(){}
 
     public void toBuy(Product product){
         try {

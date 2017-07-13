@@ -18,7 +18,6 @@ public abstract class Person
         this.BranchName = BranchName;
     }
 
-
     @Override
     public String toString()
     {
