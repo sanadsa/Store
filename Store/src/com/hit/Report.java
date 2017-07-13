@@ -17,6 +17,7 @@ public class Report {
     private JSONParser parser;
     private JSONObject json;
     private Gson gson = new Gson();
+    private int g;
 
     public Report(Branch branch) {
         this.branch = branch;
