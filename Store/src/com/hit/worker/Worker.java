@@ -21,10 +21,9 @@ public abstract class Worker extends Person
         return password;
     }
 
-    public Worker(String name, String id, String phone, String inventory, String numberAcount, String password)
+    public Worker(String name, String id, String phone,  String numberAcount, String password)
     {
-
-        super(name, id, phone, inventory);
+        super(name, id, phone);
         this.numberAcount = numberAcount;
         this.password=password;
     }

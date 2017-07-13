@@ -5,8 +5,8 @@ package com.hit.worker;
  */
 public class Seller extends Worker
 {
-    public Seller(String name, String id, String phone, String inventory, String numberAcount, String password)
+    public Seller(String name, String id, String phone,  String numberAcount, String password)
     {
-        super(name, id, phone, inventory, numberAcount,password);
+        super(name, id, phone, numberAcount,password);
     }
 }

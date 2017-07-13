@@ -24,16 +24,16 @@ public class storeManager
         switch (input[1])
         {
             case "responsible Shift":
-                typeWorker= new responsibleShift(input[2],input[3],input[4],input[5],input[6],input[7]);
+                typeWorker= new responsibleShift(input[2],input[3],input[4],input[6],input[7]);
                 break;
             case "Seller":
-                typeWorker= new Seller(input[2],input[3],input[4],input[5],input[6],input[7]);
+                typeWorker= new Seller(input[2],input[3],input[4],input[6],input[7]);
                 break;
             case "Cashier":
-                typeWorker= new Cashier(input[2],input[3],input[4],input[5],input[6],input[7]);
+                typeWorker= new Cashier(input[2],input[3],input[4],input[6],input[7]);
                 break;
         }
-        if(typeWorker.getBranch()=="TLV")
+        if(input[5]=="TLV")
             storeManager.TLVStore.addWorker(typeWorker);
         else storeManager.HifaStore.addWorker(typeWorker);
         return typeWorker;

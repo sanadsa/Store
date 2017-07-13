@@ -5,8 +5,8 @@ package com.hit.worker;
  */
 public class responsibleShift extends Worker
 {
-    public responsibleShift(String name, String id, String phone, String inventory, String numberAcount,String password)
+    public responsibleShift(String name, String id, String phone, String numberAcount,String password)
     {
-        super(name, id, phone, inventory, numberAcount, password);
+        super(name, id, phone, numberAcount, password);
     }
 }

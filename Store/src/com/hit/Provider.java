@@ -13,17 +13,17 @@ public class Provider
     public static BufferedReader DataBaseTLVForRead;
     public static BufferedReader DataBaseHiafaForRead;
 
-    private static BufferedWriter DataBaseTLVForWrite;
-    private static BufferedWriter DataBaseHiafaforWrite;
+    private static PrintWriter DataBaseTLVForWrite;
+    private static PrintWriter DataBaseHiafaforWrite;
 
     static
     {
         try
         {
-            DataBaseHiafaforWrite = new BufferedWriter
-                    (new FileWriter("C:\\dev\\java\\text1.txt"));
-            DataBaseTLVForWrite =new BufferedWriter
-                    (new FileWriter("C:\\dev\\java\\text.txt"));
+            DataBaseHiafaforWrite = new PrintWriter(new BufferedWriter
+                    (new FileWriter("C:\\dev\\java\\text1.txt")));
+            DataBaseTLVForWrite =new PrintWriter( new BufferedWriter
+                    (new FileWriter("C:\\dev\\java\\text.txt")));
         }
         catch (final IOException e) {
         throw new ExceptionInInitializerError(e.getMessage());
@@ -77,16 +77,14 @@ public class Provider
     {
         try
         {
-            for (Worker workerobj : storeManager.HifaStore.getWorkerInInventory())
+            for (Worker workerobj : storeManager.HifaStore.getWorkerInBranch())
             {
-                DataBaseHiafaforWrite.write(workerobj.toString());
-                DataBaseHiafaforWrite.newLine();
+                DataBaseHiafaforWrite.println(workerobj.toString());
                 DataBaseHiafaforWrite.flush();
             }
-            for (Worker workerobj : storeManager.TLVStore.getWorkerInInventory())
+            for (Worker workerobj : storeManager.TLVStore.getWorkerInBranch())
             {
                 DataBaseTLVForWrite.write(workerobj.toString());
-                DataBaseTLVForWrite.newLine();
                 DataBaseTLVForWrite.flush();
             }
         } catch (Exception e)

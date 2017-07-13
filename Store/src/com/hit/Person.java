@@ -8,14 +8,12 @@ public abstract class Person
     private String Name;
     private String Id;
     private String Phone;
-    private String BranchName;
 
-    public Person(String name, String id, String phone, String BranchName)
+    public Person(String name, String id, String phone)
     {
         Name = name;
         Id = id;
         Phone = phone;
-        this.BranchName = BranchName;
     }
 
 
@@ -26,14 +24,9 @@ public abstract class Person
                 "Name='" + Name + '\'' +
                 ", Id='" + Id + '\'' +
                 ", Phone='" + Phone + '\'' +
-                ", BranchName='" + BranchName + '\'' +
                 '}';
     }
 
-    public String getBranch()
-    {
-        return BranchName;
-    }
 
     public void setName(String name)
     {
@@ -50,11 +43,7 @@ public abstract class Person
         Phone = phone;
     }
 
-    public String getName()
-    {
-
-        return Name;
-    }
+    public String getName() {return Name;}
 
     public String getId()
     {
