@@ -43,7 +43,6 @@ public class Provider
 
     public static void readDataBase() throws IOException
     {
-
         try
         {
             StringBuilder sb = new StringBuilder();
@@ -142,6 +141,19 @@ public class Provider
                                 sendMessage(LoginWorker.toString());
                             }
                             break;
+                        case "report":
+                            Report report = new Report();
+                            switch (allParameter[1]){
+                                case "numberOfSales":
+                                    report.getQuantityOfSales(storeManager.getBranch(out.toString()));
+                                    break;
+                                case "reportOfProduct":
+                                    report.showReportOfProduct(allParameter[3]);
+                                    break;
+                                case "vipCustomers":
+                                    report.getVipCustomers(storeManager.getBranch(out.toString()));
+                                    break;
+                            }
                     }
                     sendMessage(message);
 

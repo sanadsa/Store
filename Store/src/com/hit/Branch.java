@@ -101,8 +101,13 @@ public class Branch {
     //sell
     public void removeProduct(Product product) {
         try {
-            productsInInventory.remove(product);
-            quantityOfSales++;
+            if(productsInInventory.contains(product)) {
+                productsInInventory.remove(product);
+                quantityOfSales++;
+                int salesOfProduct = product.numberOfSales.get(product.getName());
+                salesOfProduct++;
+                product.numberOfSales.put(product.getName(), salesOfProduct);
+            }
         }catch (Exception e){
             System.out.println("buy exception: " + e.getMessage());
         }

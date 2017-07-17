@@ -1,8 +1,7 @@
 package com.store;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 /**
  * Created by Sanad on 10/07/2017.
@@ -13,25 +12,53 @@ public class productForm {
     private JComboBox productsJCombo;
     private JButton enterButton;
     private String product;
+    private boolean isClosed = false;
+
+    public boolean isClosed() {
+        return isClosed;
+    }
 
     public productForm() {
-        JFrame frame = new JFrame("CustomersForm");
-        frame.setSize(300, 150);
+        JFrame frameProduct = new JFrame("ProductForm");
+        frameProduct.setSize(300, 150);
+
+        frameProduct.addWindowListener(new WindowAdapter() {
+
+            public void windowClosing(WindowEvent e) {
+                System.out.println("A is closing");
+                isClosed = true;
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.out.println("A has closed");
+                isClosed = true;
+            }
+        });
 
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String product = (String) productsJCombo.getSelectedItem();
+                 product = (String) productsJCombo.getSelectedItem();
             }
         });
-
-        productPanel.add(chooseProductToGetTextPane);
-        productPanel.add(productsJCombo);
         productPanel.add(enterButton);
-        productPanel.setVisible(true);
-        frame.add(productPanel);
-        frame.setVisible(true);
 
+        productsJCombo =new JComboBox();
+        productsJCombo.addItem("SportsPants");
+        productsJCombo.addItem("customMade");
+        productsJCombo.addItem("jeans");
+        productsJCombo.addItem("tShirt");
+        productsJCombo.addItem("TailoredShirt");
+        productsJCombo.addItem("coat");
+        productsJCombo.addItem("sweater");
+        productsJCombo.setBounds(10, 10, 80, 25);
+        productPanel.add(productsJCombo);
+
+        //productPanel.add(chooseProductToGetTextPane);
+        productPanel.setVisible(true);
+        frameProduct.add(productPanel);
+        frameProduct.setVisible(true);
     }
 
     public String getProduct() {

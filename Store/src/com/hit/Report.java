@@ -16,10 +16,8 @@ import java.util.List;
 public class Report {
     private Branch branch;
     private Product product;
-    private JSONParser parser;
     private JSONObject json;
-    private Gson gson = new Gson();
-    private PrintWriter out;
+    private JsonFormat jsonFormat = new JsonFormat("C:\\dev\\java\\filename.txt");
 
     public Report(Branch branch)  {
         this.branch = branch;
@@ -34,46 +32,34 @@ public class Report {
     public void getQuantityOfSales(Branch branch) {
         //JSONObject jsonObj = new JSONObject("{\"phonetype\":\"N95\",\"cat\":\"WP\"}");
         //json = (JSONObject) parser.parse();
-        try{
-            json = new JSONObject("{\"quantity of sales\":\""+ branch.getQuantityOfSales() + "\"}");
-        } catch (Exception json){
-            System.out.println(json.getMessage());
-        }
+//        try{
+//            json = new JSONObject("{\"quantity of sales\":\""+ branch.getQuantityOfSales() + "\"}");
+//        } catch (Exception json){
+//            System.out.println(json.getMessage());
+//        }
 
-        writeFile(json.toString());
-        System.out.println(json);//send to file...
+        String toString = jsonFormat.toJson(branch.getQuantityOfSales());
+        jsonFormat.writeFile(toString);
+
+//        writeFile(json.toString());
+//        System.out.println(json);//send to file...
     }
 
     /**
      * get report of a specific product
      * @param product the product we want to get its report
      */
-    public void showReportOfProduct(Product product){
-        //convert java object to JSON format
-        String stringJson = gson.toJson(product);
-        System.out.println(stringJson);//send to file...
-        writeFile(stringJson);
+    public void showReportOfProduct(String product){
+        String stringJson = jsonFormat.toJson(product);
+        jsonFormat.writeFile(stringJson);
     }
 
     /**
      * shows the vip customers
      * @return list of the vip customer
      */
-    public void getVipCustomers( Branch branch) {
-        String stringJson = gson.toJson(branch.getVipCustomers());
-        System.out.println(stringJson);//send to file
-        writeFile(stringJson);
-    }
-
-    public void writeFile(String report){
-        try {
-            out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\dev\\java\\filename.txt", true)));
-            out.println(report);
-            out.flush();
-        } catch (IOException ex) {
-            // report
-        } finally {
-            out.close();
-        }
+    public void getVipCustomers(Branch branch) {
+        String stringJson = jsonFormat.toJson(branch.getVipCustomers());
+        jsonFormat.writeFile(stringJson);
     }
 }

@@ -1,5 +1,8 @@
 package com.hit;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Product {
     private int id;
     private  productType name;
@@ -14,10 +17,15 @@ public class Product {
         coat,
         sweater
     }
+    //the value of the product type is the quantity of sales
+    Map<productType,Integer> numberOfSales = new HashMap<productType,Integer>();
+
     public Product(int id, productType name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.numberOfSales.put(name, 0);
+
     }
 
     public int getId() {
