@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Created by Sanad on 10/07/2017.
- */
 public class ReportForm {
     private JPanel reportPanel = new JPanel();
     private JButton numberOfSales;

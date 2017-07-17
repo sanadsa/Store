@@ -2,7 +2,7 @@
   <library name="gson-2.6.2-javadoc">
     <CLASSES />
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/src/lib/gson-2.6.2-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../gson-2.6.2-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES />
   </library>
