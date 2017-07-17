@@ -1,7 +1,6 @@
 package com.hit;
 
 import com.google.gson.Gson;
-import customer.VIPCustomer;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 
@@ -16,7 +15,6 @@ import java.util.List;
  */
 public class Report {
     private Branch branch;
-    private List<VIPCustomer> vipCustomers;
     private Product product;
     private JSONParser parser;
     private JSONObject json;
@@ -61,8 +59,8 @@ public class Report {
      * shows the vip customers
      * @return list of the vip customer
      */
-    public void getVipCustomers(VIPCustomer vip) {
-        String stringJson = gson.toJson(vip.getVipCustomers());
+    public void getVipCustomers( Branch branch) {
+        String stringJson = gson.toJson(branch.getVipCustomers());
         System.out.println(stringJson);//send to file
         writeFile(stringJson);
     }
