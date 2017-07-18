@@ -148,7 +148,7 @@ public class Provider
                                     report.getQuantityOfSales(storeManager.getBranch(out.toString()));
                                     break;
                                 case "reportOfProduct":
-                                    report.showReportOfProduct(allParameter[3]);
+                                    report.showReportOfProduct(allParameter[2]);
                                     break;
                                 case "vipCustomers":
                                     report.getVipCustomers(storeManager.getBranch(out.toString()));

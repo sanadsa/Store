@@ -9,13 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * class that manage reports of the branch
  */
 public class Report {
     private Branch branch;
-    private Product product;
+    private Product productA;
     private JSONObject json;
     private JsonFormat jsonFormat = new JsonFormat("C:\\dev\\java\\filename.txt");
 
@@ -50,7 +51,17 @@ public class Report {
      * @param product the product we want to get its report
      */
     public void showReportOfProduct(String product){
-        String stringJson = jsonFormat.toJson(product);
+        Product.productType enumProduct = Product.productType.valueOf(product);
+        int salesOfProduct;
+        System.out.println(enumProduct);
+        if(productA.numberOfSales.get(enumProduct) != null) {
+            salesOfProduct = productA.numberOfSales.get(enumProduct);
+        }
+        else{
+            salesOfProduct = 0;
+        }
+
+        String stringJson = jsonFormat.toJson(enumProduct + "" + salesOfProduct);
         jsonFormat.writeFile(stringJson);
     }
 

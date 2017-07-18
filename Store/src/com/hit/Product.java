@@ -7,7 +7,7 @@ public class Product {
     private int id;
     private  productType name;
     private double price;
-    public enum  productType
+    public enum productType
     {
         SportsPants,
         customMade,
@@ -25,7 +25,6 @@ public class Product {
         this.name = name;
         this.price = price;
         this.numberOfSales.put(name, 0);
-
     }
 
     public int getId() {
@@ -39,7 +38,6 @@ public class Product {
     public productType getName() {
         return name;
     }
-
 
     public double getPrice() {
         return price;

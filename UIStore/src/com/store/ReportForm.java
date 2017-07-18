@@ -12,7 +12,9 @@ public class ReportForm {
     private JButton numberOfSales;
     private JButton productReportButton;
     private JButton VIPCustomersButton;
+    private JComboBox productsJCombo;
     private Socket socket;
+    private String product;
 
     public ReportForm(){
         JFrame frame = new JFrame("ReportForm");
@@ -50,18 +52,29 @@ public class ReportForm {
         });
         reportPanel.add(numberOfSales);
 
+        productsJCombo =new JComboBox();
+        productsJCombo.addItem("SportsPants");
+        productsJCombo.addItem("customMade");
+        productsJCombo.addItem("jeans");
+        productsJCombo.addItem("tShirt");
+        productsJCombo.addItem("TailoredShirt");
+        productsJCombo.addItem("coat");
+        productsJCombo.addItem("sweater");
+        productsJCombo.setBounds(10, 10, 80, 25);
+        reportPanel.add(productsJCombo);
+
         productReportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                productForm p = new productForm();
-                String chosenProduct = p.getProduct();
+                product = (String) productsJCombo.getSelectedItem();
+                //productForm p = new productForm();
+                //String chosenProduct = p.getProduct();
                 //connect to store project
-                while(p.isClosed() == false) {
                     ObjectInputStream fromServer;
                     ObjectOutputStream toServer;
 
                     try {
-                        String Line = "report" + "," + "reportOfProduct" + "," + chosenProduct;
+                        String Line = "report" + "," + "reportOfProduct" + "," + product;
                         fromServer = new ObjectInputStream(socket.getInputStream());
                         toServer = new ObjectOutputStream(socket.getOutputStream());
                         toServer.writeObject(Line);
@@ -70,8 +83,7 @@ public class ReportForm {
                     } catch (Exception e1) {
                         JOptionPane.showMessageDialog(null, e1.getMessage());
                     }
-                    JOptionPane.showMessageDialog(null, "the report of the product: " + chosenProduct + " is sent to the database");
-                }
+                    JOptionPane.showMessageDialog(null, "the report of the product: " + product + " is sent to the database");
             }
         });
         reportPanel.add(productReportButton);
