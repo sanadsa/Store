@@ -41,7 +41,6 @@ public class Provider
     {
     }
 
-
     public static void readDataBase() throws IOException
     {
         try
@@ -152,11 +151,12 @@ public class Provider
                                     report.showReportOfProduct(allParameter[2]);
                                     break;
                                 case "vipCustomers":
-                                    report.getVipCustomers(storeManager.getBranch(out.toString()));
+                                    report.getVipCustomers(allParameter[2]);
                                     break;
                             }
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
+                            //write to database
                     }
                     sendMessage(message);
 

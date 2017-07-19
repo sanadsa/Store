@@ -18,7 +18,7 @@ public class StoreInventory
 {
     private JPanel Panel;
     JComboBox typeToSearch;
-    JButton buy,sell,search, report;
+    JButton buy,sell,search, report, addCutomer;
     JLabel amount;
 
     public StoreInventory() {
@@ -71,6 +71,19 @@ public class StoreInventory
             }
         });
         Panel.add(sell);
+
+        buy=new JButton("add Customer");
+        buy.setLayout(null);
+        buy.setBounds(10, 10, 80, 25);
+        buy.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                new addCustomer();
+            }
+        });
+        Panel.add(buy);
 
         report=new JButton("report");
         report.setLayout(null);

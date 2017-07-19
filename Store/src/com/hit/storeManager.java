@@ -53,14 +53,14 @@ public class storeManager
             case "ReturningCustomer":
                 customerType = new ReturningCustomer(input[2], input[3], input[4], input[5]);
                 if(input[5] == "TLV")
-                    storeManager.TLVStore.addNewCustomer(customerType);
-                else storeManager.HaifaStore.addNewCustomer(customerType);
+                    storeManager.TLVStore.addReturningCustomer(customerType);
+                else storeManager.HaifaStore.addReturningCustomer(customerType);
                 break;
             case "VIPCustomer":
                 customerType = new VIPCustomer(input[2], input[3], input[4], input[5]);
                 if(input[5] == "TLV")
-                    storeManager.TLVStore.addNewCustomer(customerType);
-                else storeManager.HaifaStore.addNewCustomer(customerType);
+                    storeManager.TLVStore.addVIPCustomer(customerType);
+                else storeManager.HaifaStore.addVIPCustomer(customerType);
                 break;
         }
         return customerType;

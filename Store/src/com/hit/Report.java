@@ -3,6 +3,7 @@ package com.hit;
 import com.google.gson.Gson;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
+import sun.util.resources.cldr.lv.TimeZoneNames_lv;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -71,8 +72,16 @@ public class Report {
      * shows the vip customers
      * @return list of the vip customer
      */
-    public void getVipCustomers(Branch branch) {
-        String stringJson = jsonFormat.toJson(branch.getVipCustomers());
+    public void getVipCustomers(String branch) {
+        String stringJson;
+
+        if(branch == "TLV") {
+            stringJson = jsonFormat.toJson(storeManager.TLVStore.getVipCustomers());
+        }
+        else {
+            stringJson = jsonFormat.toJson(storeManager.HaifaStore.getVipCustomers());
+        }
+
         jsonFormat.writeFile(stringJson);
     }
 }

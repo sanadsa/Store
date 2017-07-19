@@ -9,10 +9,9 @@ import java.net.Socket;
 
 public class ReportForm {
     private JPanel reportPanel = new JPanel();
-    private JButton numberOfSales;
-    private JButton productReportButton;
-    private JButton VIPCustomersButton;
-    private JComboBox productsJCombo;
+    private JButton numberOfSales, productReportButton, VIPCustomersButton;
+    private JLabel branchName;
+    private JComboBox productsJCombo, branchNameT;
     private Socket socket;
     private String product;
 
@@ -63,6 +62,17 @@ public class ReportForm {
         productsJCombo.setBounds(10, 10, 80, 25);
         reportPanel.add(productsJCombo);
 
+        branchName = new JLabel("branchName:         ");
+        branchName.setBounds(10, 130, 80, 25);
+        reportPanel.add(branchName);
+
+        branchNameT = new JComboBox();
+        branchNameT.addItem("");
+        branchNameT.addItem("TLV");
+        branchNameT.addItem("Haifa");
+        branchNameT.setBounds(100, 130, 160, 25);
+        reportPanel.add(branchNameT);
+
         productReportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,19 +105,22 @@ public class ReportForm {
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
-                try
-                {
-                    String Line = "report" +  "," + "vipCustomers";
-                    fromServer = new ObjectInputStream (socket.getInputStream());
-                    toServer = new ObjectOutputStream(socket.getOutputStream());
-                    toServer.writeObject(Line);
-                    Line = fromServer.readObject().toString();
-                    System.out.println(Line);
-                }
-                catch (Exception e1){
-                    JOptionPane.showMessageDialog(null, e1.getMessage());}
+                if (branchNameT.getSelectedItem() == "") {
+                    msgbox("please choose branch");
+                } else {
+                    try {
+                        String Line = "report" + "," + "vipCustomers" + "," + branchNameT.getSelectedItem();
+                        fromServer = new ObjectInputStream(socket.getInputStream());
+                        toServer = new ObjectOutputStream(socket.getOutputStream());
+                        toServer.writeObject(Line);
+                        Line = fromServer.readObject().toString();
+                        System.out.println(Line);
+                    } catch (Exception e1) {
+                        JOptionPane.showMessageDialog(null, e1.getMessage());
+                    }
 
-                JOptionPane.showMessageDialog(null, "The vip customers list sent to database");
+                    JOptionPane.showMessageDialog(null, "The vip customers list sent to database");
+                }
             }
         });
         reportPanel.add(VIPCustomersButton);
@@ -115,5 +128,10 @@ public class ReportForm {
         reportPanel.setVisible(true);
         frame.add(reportPanel);
         frame.setVisible(true);
+    }
+
+    public static void msgbox(String s)
+    {
+        JOptionPane.showMessageDialog(null, s);
     }
 }

@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class newCustomer {
+public class addCustomer {
     JLabel name,id,phone,branchName, customerType;
     JTextField nameT,idT,phoneT;
     JPasswordField passwordField;
@@ -17,7 +17,7 @@ public class newCustomer {
     private String BranchPhoneHaifa="02-2323232";
     private JPanel panel= new JPanel();;
 
-    public newCustomer()
+    public addCustomer()
     {
         JFrame frame = new JFrame("Add Customer");
         frame.setSize(250, 450);
