@@ -2,6 +2,7 @@ package com.hit; /**
  * Created by snir on 01/07/2017.
  */
 
+import com.hit.customer.Customer;
 import com.hit.worker.Worker;
 
 import java.io.*;
@@ -76,7 +77,7 @@ public class Provider
     {
         try
         {
-            for (Worker workerobj : storeManager.HifaStore.getWorkerInBranch())
+            for (Worker workerobj : storeManager.HaifaStore.getWorkerInBranch())
             {
                 DataBaseHiafaforWrite.println(workerobj.toString());
                 DataBaseHiafaforWrite.flush();
@@ -154,6 +155,8 @@ public class Provider
                                     report.getVipCustomers(storeManager.getBranch(out.toString()));
                                     break;
                             }
+                        case "customer":
+                            Customer newCustomer = storeManager.createCustomer(allParameter);
                     }
                     sendMessage(message);
 

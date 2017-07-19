@@ -9,12 +9,10 @@ public class VIPCustomer extends Customer
 {
     private final double salePercent = 0.5;
 
-    public VIPCustomer(String customerName, String customerId, String customerPhone)
+    public VIPCustomer(String customerName, String customerId, String customerPhone, String branchName)
     {
-        super(customerName, customerId, customerPhone);
+        super(customerName, customerId, customerPhone, branchName);
     }
-
-
 
     @Override
     protected void printPrice(double price)

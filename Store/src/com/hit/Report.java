@@ -54,8 +54,10 @@ public class Report {
         Product.productType enumProduct = Product.productType.valueOf(product);
         int salesOfProduct;
         System.out.println(enumProduct);
-        if(productA.numberOfSales.get(enumProduct) != null) {
-            salesOfProduct = productA.numberOfSales.get(enumProduct);
+        List<Product> products = branch.getProductsInInventory();
+        int ind = products.indexOf(product);
+        if(ind != -1) {
+            salesOfProduct = products.get(ind).numberOfSales.get(enumProduct); //number of sales of the product <enumProduct>
         }
         else{
             salesOfProduct = 0;

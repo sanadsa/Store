@@ -14,7 +14,7 @@ public class CustomersForm {
     private JPanel customersPanel = new JPanel();
 
     public CustomersForm() {
-        JFrame frame = new JFrame("CustomersForm");
+        JFrame frame = new JFrame("Add Customer");
         frame.setSize(300, 150);
 
         VIPButton.addActionListener(new ActionListener() {

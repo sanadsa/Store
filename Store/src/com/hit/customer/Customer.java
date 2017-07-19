@@ -6,7 +6,7 @@ import com.hit.Product;
 
 public abstract class Customer extends Person
 {
-    public Customer(String name, String id, String phone)
+    public Customer(String name, String id, String phone, String branch)
     {
         super(name, id, phone);
     }

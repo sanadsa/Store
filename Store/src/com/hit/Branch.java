@@ -17,6 +17,8 @@ public class Branch {
     private List<Product> productsInInventory;
     private int quantityOfSales;
     private List<Customer> vipCustomers;
+    private List<Customer> returningCustomers;
+    private List<Customer> newCustomers;
 
     public Branch(String branchName, String phoneNumber, String address) {
         this.branchName = branchName;
@@ -25,6 +27,8 @@ public class Branch {
         this.productsInInventory = new ArrayList<Product>();
         this.workerInBranch = new ArrayList<Worker>();
         this.vipCustomers = new ArrayList<Customer>();
+        this.returningCustomers = new ArrayList<Customer>();
+        this.newCustomers = new ArrayList<Customer>();
         this.quantityOfSales = 0;
     }
 
@@ -37,10 +41,17 @@ public class Branch {
         this.vipCustomers.add(customer);
     }
 
+    public void addReturningCustomer(Customer customer) {
+        this.returningCustomers.add(customer);
+    }
+
+    public void addNewCustomer(Customer customer){ this.newCustomers.add(customer); }
+
     public void addWorker(Worker workerInput)
     {
         this.workerInBranch.add(workerInput);
     }
+
     public void deleteWorker(Worker workerInput)
     {
         this.workerInBranch.remove(workerInput);

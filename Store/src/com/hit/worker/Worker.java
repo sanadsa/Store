@@ -2,9 +2,6 @@ package com.hit.worker;
 
 import com.hit.Person;
 
-/**
- * Created by snir on 25/05/2017.
- */
 public abstract class Worker extends Person
 {
     private String numberAcount;

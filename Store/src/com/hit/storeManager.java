@@ -1,24 +1,25 @@
 package com.hit;
 
+import com.hit.customer.Customer;
+import com.hit.customer.NewCustomer;
+import com.hit.customer.ReturningCustomer;
+import com.hit.customer.VIPCustomer;
 import com.hit.worker.Cashier;
 import com.hit.worker.Seller;
 import com.hit.worker.responsibleShift;
 import com.hit.worker.Worker;
 
-/**
- * Created by snir on 26/05/2017.
- */
 public class storeManager
 {
-    public static Branch TLVStore=new Branch("TLV","03-2323232","ibn Gabirol 15");
-    public static Branch HifaStore=new Branch("Haifa","02-2323232","Allenby");
+    public static Branch TLVStore = new Branch("TLV","03-2323232","ibn Gabirol 15");
+    public static Branch HaifaStore = new Branch("Haifa","02-2323232","Allenby");
 
     public static Branch getBranch(String branchName){
         if(TLVStore.getBranchName()==branchName)
             return TLVStore;
-        else return HifaStore;
-
+        else return HaifaStore;
     }
+
     public static Worker createWorkerAndInsert(String[] input){
         Worker typeWorker=null;
         switch (input[1])
@@ -35,8 +36,34 @@ public class storeManager
         }
         if(input[5]=="TLV")
             storeManager.TLVStore.addWorker(typeWorker);
-        else storeManager.HifaStore.addWorker(typeWorker);
+        else storeManager.HaifaStore.addWorker(typeWorker);
         return typeWorker;
+    }
+
+    public static Customer createCustomer(String[] input){
+        Customer customerType = null;
+        switch (input[1])
+        {
+            case "NewCustomer":
+                customerType = new NewCustomer(input[2], input[3], input[4], input[5]);
+                if(input[5] == "TLV")
+                    storeManager.TLVStore.addNewCustomer(customerType);
+                else storeManager.HaifaStore.addNewCustomer(customerType);
+                break;
+            case "ReturningCustomer":
+                customerType = new ReturningCustomer(input[2], input[3], input[4], input[5]);
+                if(input[5] == "TLV")
+                    storeManager.TLVStore.addNewCustomer(customerType);
+                else storeManager.HaifaStore.addNewCustomer(customerType);
+                break;
+            case "VIPCustomer":
+                customerType = new VIPCustomer(input[2], input[3], input[4], input[5]);
+                if(input[5] == "TLV")
+                    storeManager.TLVStore.addNewCustomer(customerType);
+                else storeManager.HaifaStore.addNewCustomer(customerType);
+                break;
+        }
+        return customerType;
     }
 
     public static String[] getAction(String action){
@@ -58,7 +85,7 @@ public class storeManager
             }
         }
         if(!isFound)
-        for (Worker wo :HifaStore.getWorkerInBranch())
+        for (Worker wo : HaifaStore.getWorkerInBranch())
         {
             if(wo.getPassword()==Password && wo.getName() ==name)
             {

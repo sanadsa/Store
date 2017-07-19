@@ -6,9 +6,9 @@ public class NewCustomer extends Customer {
     private final double salePercent = 0.3;
 
 
-    public NewCustomer(String customerName, String customerId, String customerPhone, Branch belongName)
+    public NewCustomer(String customerName, String customerId, String customerPhone, String belongName)
     {
-        super(customerName, customerId, customerPhone);
+        super(customerName, customerId, customerPhone, belongName);
     }
 
     @Override

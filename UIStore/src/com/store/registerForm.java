@@ -9,9 +9,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-/**
- * Created by snir on 25/05/2017.
- */
 public class registerForm
 {
 JLabel name,id,password,phone,branchName,acountNumber,typeWorker;
@@ -25,10 +22,9 @@ JButton submit;
 
     public registerForm()
     {
-        JFrame frame = new JFrame("regisret");
+        JFrame frame = new JFrame("register");
         frame.setSize(250, 450);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
         name = new JLabel("name:");
         name.setBounds(10, 10, 80, 25);
@@ -46,7 +42,7 @@ JButton submit;
         idT.setBounds(100, 40, 160, 25);
         panel.add(idT);
 
-        acountNumber = new JLabel("acountNumber:");
+        acountNumber = new JLabel("accountNumber:");
         acountNumber.setBounds(10, 70, 80, 25);
         panel.add(acountNumber);
 
