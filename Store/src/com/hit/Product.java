@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Product {
-    private int id;
     private productType name;
     private double price;
     public enum productType
@@ -18,21 +17,20 @@ public class Product {
         sweater
     }
     //the value of the product type is the quantity of sales
-    Map<productType,Integer> numberOfSales = new HashMap<productType,Integer>();
+    //Map<productType,Integer> numberOfSales = new HashMap<productType,Integer>();
+    public Map<productType,Integer> priceOfProducts = new HashMap<productType,Integer>();
 
-    public Product(int id, productType name, double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.numberOfSales.put(name, 0);
+    public Product() {
+        //this.name = name;
+        int p = 10;
+        for (int i = 0; i < Product.productType.values().length; i++){
+            this.priceOfProducts.put(Product.productType.values()[i], p);
+            p += 5;
+        }
     }
 
-    public int getId() {
-        return id;
-    }
+    public void setPrices(){
 
-    public void setId(int id) {
-        this.id = id;
     }
 
     public productType getName() {
@@ -45,12 +43,6 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return ("Product id: " + this.id + "," +
-                "product name: " + this.name + ", price: " + this.price + " shekels");
     }
 }
 

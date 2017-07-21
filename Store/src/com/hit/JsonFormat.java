@@ -42,6 +42,6 @@ public class JsonFormat {
     public void writeFile(String report){
             out.println(report);
             out.flush();
-            out.close();
+            //out.close();
     }
 }

@@ -34,7 +34,7 @@ public class storeManager
                 typeWorker= new Cashier(input[2],input[3],input[4],input[6],input[7]);
                 break;
         }
-        if(input[5]=="TLV")
+        if(input[5].equals("TLV"))
             storeManager.TLVStore.addWorker(typeWorker);
         else storeManager.HaifaStore.addWorker(typeWorker);
         return typeWorker;
@@ -46,19 +46,19 @@ public class storeManager
         {
             case "NewCustomer":
                 customerType = new NewCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5] == "TLV")
+                if(input[5].equals("TLV"))
                     storeManager.TLVStore.addNewCustomer(customerType);
                 else storeManager.HaifaStore.addNewCustomer(customerType);
                 break;
             case "ReturningCustomer":
                 customerType = new ReturningCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5] == "TLV")
+                if(input[5].equals("TLV"))
                     storeManager.TLVStore.addReturningCustomer(customerType);
                 else storeManager.HaifaStore.addReturningCustomer(customerType);
                 break;
             case "VIPCustomer":
                 customerType = new VIPCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5] == "TLV")
+                if(input[5].equals("TLV"))
                     storeManager.TLVStore.addVIPCustomer(customerType);
                 else storeManager.HaifaStore.addVIPCustomer(customerType);
                 break;
@@ -73,8 +73,17 @@ public class storeManager
             storeManager.HaifaStore.addProducts();
     }
 
+    public static void sellProduct(String[] input){
+        System.out.println(input[2]);
+        Product.productType product = Product.productType.valueOf(input[2]);
+        if(input[1].equals("TLV"))
+            storeManager.TLVStore.sellProduct(product);//, input[3]);
+        else
+            storeManager.HaifaStore.sellProduct(product);
+    }
+
     public static String[] getAction(String action){
-        String[] allParameter= action.split(",");
+        String[] allParameter = action.split(",");
         return allParameter;
     }
 

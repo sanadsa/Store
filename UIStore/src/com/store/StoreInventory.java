@@ -44,35 +44,17 @@ public class StoreInventory
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                ObjectInputStream fromServer;
-                ObjectOutputStream toServer;
-
-                getNumberOfSales();
-                typeToSearch.removeAllItems();
-                typeToSearch.addItem("SportsPants " + values[0]);
-                typeToSearch.addItem("customMade " + values[1]);
-                typeToSearch.addItem("jeans " + values[2]);
-                typeToSearch.addItem("tShirt " + values[3]);
-                typeToSearch.addItem("TailoredShirt " + values[4]);
-                typeToSearch.addItem("coat " + values[5]);
-                typeToSearch.addItem("sweater " + values[6]);
+               updateProducts();
             }
         });
         Panel.add(branchNameT);
 
         amount= new JLabel("0");
         amount.setBounds(10, 10, 80, 25);
-        Panel.add(amount);
+        //Panel.add(amount);
 
-        getNumberOfSales();
         typeToSearch = new JComboBox();
-        typeToSearch.addItem("SportsPants " + values[0]);
-        typeToSearch.addItem("customMade " + values[1]);
-        typeToSearch.addItem("jeans " + values[2]);
-        typeToSearch.addItem("tShirt " + values[3]);
-        typeToSearch.addItem("TailoredShirt " + values[4]);
-        typeToSearch.addItem("coat " + values[5]);
-        typeToSearch.addItem("sweater " + values[6]);
+        updateProducts();
         typeToSearch.setBounds(10, 10, 80, 25);
         Panel.add(typeToSearch);
         //typeToSearch.setVisible(!typeToSearch.isVisible());
@@ -88,7 +70,6 @@ public class StoreInventory
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
-                //registerForm.msgbox("choose branch");
                 try {
                     Socket socket = new Socket("localhost", 2004);
                     String Line = "buy" + "," + branchNameT.getSelectedItem();
@@ -98,15 +79,8 @@ public class StoreInventory
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.getMessage());
                 }
-                getNumberOfSales();
-                typeToSearch.removeAllItems();
-                typeToSearch.addItem("SportsPants " + values[0]);
-                typeToSearch.addItem("customMade " + values[1]);
-                typeToSearch.addItem("jeans " + values[2]);
-                typeToSearch.addItem("tShirt " + values[3]);
-                typeToSearch.addItem("TailoredShirt " + values[4]);
-                typeToSearch.addItem("coat " + values[5]);
-                typeToSearch.addItem("sweater " + values[6]);
+
+                updateProducts();
             }
         });
         Panel.add(buy);
@@ -119,37 +93,49 @@ public class StoreInventory
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new CustomersForm();
-                JOptionPane.showMessageDialog(null, "choose which customer will buy");
+                //new CustomersForm();
+                ObjectInputStream fromServer;
+                ObjectOutputStream toServer;
+
+                try {
+                    Socket socket = new Socket("localhost", 2004);
+                    String[] test = typeToSearch.getSelectedItem().toString().split(" ");
+                    String Line = "sell" + "," + branchNameT.getSelectedItem() + "," + test[0];
+                    fromServer = new ObjectInputStream(socket.getInputStream());
+                    toServer = new ObjectOutputStream(socket.getOutputStream());
+                    toServer.writeObject(Line);
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null, e1.getMessage());
+                }
             }
         });
         Panel.add(sell);
 
-        showProducts = new JButton("show products in inventory");
-        showProducts.setBounds(180, 80, 80, 25);
-        showProducts.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if(typeToSearch.isVisible()) {
-                    typeToSearch.setVisible(typeToSearch.isVisible());
-                }
-                else{
-                    typeToSearch.setVisible(!typeToSearch.isVisible());
-                }
-                getNumberOfSales();
-                typeToSearch.removeAllItems();
-                typeToSearch.addItem("SportsPants " + values[0]);
-                typeToSearch.addItem("customMade " + values[1]);
-                typeToSearch.addItem("jeans " + values[2]);
-                typeToSearch.addItem("tShirt " + values[3]);
-                typeToSearch.addItem("TailoredShirt " + values[4]);
-                typeToSearch.addItem("coat " + values[5]);
-                typeToSearch.addItem("sweater " + values[6]);
-            }
-        });
-        //Panel.add(showProducts);
+//        showProducts = new JButton("show products in inventory");
+//        showProducts.setBounds(180, 80, 80, 25);
+//        showProducts.addActionListener(new ActionListener()
+//        {
+//            @Override
+//            public void actionPerformed(ActionEvent e)
+//            {
+//                if(typeToSearch.isVisible()) {
+//                    typeToSearch.setVisible(typeToSearch.isVisible());
+//                }
+//                else{
+//                    typeToSearch.setVisible(!typeToSearch.isVisible());
+//                }
+//                getNumberOfSales();
+//                typeToSearch.removeAllItems();
+//                typeToSearch.addItem("SportsPants " + values[0]);
+//                typeToSearch.addItem("customMade " + values[1]);
+//                typeToSearch.addItem("jeans " + values[2]);
+//                typeToSearch.addItem("tShirt " + values[3]);
+//                typeToSearch.addItem("TailoredShirt " + values[4]);
+//                typeToSearch.addItem("coat " + values[5]);
+//                typeToSearch.addItem("sweater " + values[6]);
+//            }
+//        });
+//        //Panel.add(showProducts);
 
         addCustomer=new JButton("add Customer");
         addCustomer.setLayout(null);
@@ -185,11 +171,22 @@ public class StoreInventory
         frame.setVisible(true);
     }
 
+    public void updateProducts(){
+        getNumberOfSales();
+        typeToSearch.removeAllItems();
+        typeToSearch.addItem("SportsPants " + values[0]);
+        typeToSearch.addItem("customMade " + values[1]);
+        typeToSearch.addItem("jeans " + values[2]);
+        typeToSearch.addItem("tShirt " + values[3]);
+        typeToSearch.addItem("TailoredShirt " + values[4]);
+        typeToSearch.addItem("coat " + values[5]);
+        typeToSearch.addItem("sweater " + values[6]);
+    }
+
     public String[] getNumberOfSales(){
         ObjectInputStream fromServer;
         ObjectOutputStream toServer;
 
-        //registerForm.msgbox("choose branch");
         try {
             Socket socket = new Socket("localhost", 2004);
             String Line = "products" + "," + branchNameT.getSelectedItem();
@@ -197,8 +194,6 @@ public class StoreInventory
             toServer = new ObjectOutputStream(socket.getOutputStream());
             toServer.writeObject(Line);
             values = (String[]) fromServer.readObject();
-            System.out.println(values[0]);
-            System.out.println(values[1]);
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, e1.getMessage());
         }

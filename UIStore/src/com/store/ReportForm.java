@@ -34,18 +34,21 @@ public class ReportForm {
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
-                try
-                {
-                    String Line = "report" +  "," + "numberOfSales";
-                    fromServer = new ObjectInputStream (socket.getInputStream());
-                    toServer = new ObjectOutputStream(socket.getOutputStream());
-                    toServer.writeObject(Line);
-                    Line = fromServer.readObject().toString();
-                    System.out.println(Line);
-                }
-                catch (Exception e1){
-                    JOptionPane.showMessageDialog(null, e1.getMessage());}
 
+                if (branchNameT.getSelectedItem() == "") {
+                    msgbox("please choose branch");
+                } else {
+                    try {
+                        String Line = "report" + "," + "numberOfSales" + "," + branchNameT.getSelectedItem();
+                        fromServer = new ObjectInputStream(socket.getInputStream());
+                        toServer = new ObjectOutputStream(socket.getOutputStream());
+                        toServer.writeObject(Line);
+                        Line = fromServer.readObject().toString();
+                        System.out.println(Line);
+                    } catch (Exception e1) {
+                        JOptionPane.showMessageDialog(null, e1.getMessage());
+                    }
+                }
                 JOptionPane.showMessageDialog(null, "The number of sales sent to database");
             }
         });
@@ -83,6 +86,9 @@ public class ReportForm {
                     ObjectInputStream fromServer;
                     ObjectOutputStream toServer;
 
+                if (branchNameT.getSelectedItem() == "") {
+                    msgbox("please choose branch");
+                } else {
                     try {
                         String Line = "report" + "," + "reportOfProduct" + "," + product;
                         fromServer = new ObjectInputStream(socket.getInputStream());
@@ -93,6 +99,7 @@ public class ReportForm {
                     } catch (Exception e1) {
                         JOptionPane.showMessageDialog(null, e1.getMessage());
                     }
+                }
                     JOptionPane.showMessageDialog(null, "the report of the product: " + product + " is sent to the database");
             }
         });

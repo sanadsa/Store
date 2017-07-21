@@ -148,7 +148,7 @@ public class Provider
                             Report report = new Report();
                             switch (allParameter[1]){
                                 case "numberOfSales":
-                                    report.getQuantityOfSales(storeManager.getBranch(out.toString()));
+                                    report.getQuantityOfSales(allParameter[2]);
                                     break;
                                 case "reportOfProduct":
                                     report.showReportOfProduct(allParameter[2]);
@@ -173,12 +173,16 @@ public class Provider
                             }
 
                             for(int i=0; i<Product.productType.values().length; i++){
-                                values[i] = test.get(Product.productType.values()[0]).toString();
+                                values[i] = test.get(Product.productType.values()[i]).toString();
                             }
                             out.writeObject(values);
                             break;
                         case "buy":
                             storeManager.addProducts(allParameter);
+                            break;
+                        case "sell":
+                            storeManager.sellProduct(allParameter);
+                            break;
                     }
                     sendMessage(message);
 
