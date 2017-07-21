@@ -42,7 +42,7 @@ public class connection extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-               StoreInventory r =new StoreInventory();
+               StoreInventory r = new StoreInventory();
 
                 ObjectInputStream fromServer;
                 ObjectOutputStream  toServer;
@@ -67,7 +67,6 @@ public class connection extends JFrame
                         catch (Exception e1){
                             JOptionPane.showMessageDialog(null, e1.getMessage());}
                     }
-
             }
         });
         panel.add(loginButton);

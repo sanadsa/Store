@@ -66,6 +66,13 @@ public class storeManager
         return customerType;
     }
 
+    public static void addProducts(String[] input){
+        if(input[1].equals("TLV"))
+            storeManager.TLVStore.addProducts();
+        else
+            storeManager.HaifaStore.addProducts();
+    }
+
     public static String[] getAction(String action){
         String[] allParameter= action.split(",");
         return allParameter;

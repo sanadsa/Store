@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Product {
     private int id;
-    private  productType name;
+    private productType name;
     private double price;
     public enum productType
     {

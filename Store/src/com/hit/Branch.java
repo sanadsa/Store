@@ -4,7 +4,9 @@ import com.hit.worker.Worker;
 import com.hit.customer.Customer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * class that manage the inventory of the branch
@@ -19,6 +21,7 @@ public class Branch {
     private List<Customer> vipCustomers;
     private List<Customer> returningCustomers;
     private List<Customer> newCustomers;
+    private Map<Product.productType,Integer> numberOfSales;
 
     public Branch(String branchName, String phoneNumber, String address) {
         this.branchName = branchName;
@@ -30,6 +33,16 @@ public class Branch {
         this.returningCustomers = new ArrayList<Customer>();
         this.newCustomers = new ArrayList<Customer>();
         this.quantityOfSales = 0;
+        this.numberOfSales = new HashMap<Product.productType,Integer>();
+        for (int i = 0; i < Product.productType.values().length; i++){
+            this.numberOfSales.put(Product.productType.values()[i], 0);
+        }
+        System.out.println("%%%"+this.numberOfSales.get(Product.productType.values()[0]));
+        System.out.println(Product.productType.values()[3]);
+    }
+
+    public Map<Product.productType, Integer> getNumberOfSales() {
+        return numberOfSales;
     }
 
     public List<Customer> getVipCustomers() {
@@ -125,13 +138,15 @@ public class Branch {
     }
 
     //buy
-    public void addProduct(Product product) {
+    public void addProducts() {
         try {
-            productsInInventory.add(product);
+            for (int i = 0; i < Product.productType.values().length; i++){
+                int ind = this.numberOfSales.get(Product.productType.values()[i]);
+                this.numberOfSales.put(Product.productType.values()[i], ind+1);
+            }
+            System.out.println("%%%"+this.numberOfSales.get(Product.productType.values()[0]));
         }catch (Exception e){
             System.out.println("buy exception: " + e.getMessage());
         }
     }
-
-
 }

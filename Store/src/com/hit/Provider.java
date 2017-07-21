@@ -8,6 +8,8 @@ import com.hit.worker.Worker;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Provider
 {
@@ -124,6 +126,7 @@ public class Provider
                 try
                 {
                     message = (String) in.readObject();
+                    System.out.println(message);
                     String[] allParameter = storeManager.getAction(message);
                     switch (allParameter[0])
                     {
@@ -157,6 +160,25 @@ public class Provider
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
                             //write to database
+                            break;
+                        case "products":
+                            Map<Product.productType, Integer> test = new HashMap<Product.productType, Integer>();
+                            String[] values = new String[Product.productType.values().length];
+
+                            if (allParameter[1].equals("TLV")){
+                                test = storeManager.TLVStore.getNumberOfSales();
+                            }
+                            else if(allParameter[1].equals("Haifa")){
+                                test = storeManager.HaifaStore.getNumberOfSales();
+                            }
+
+                            for(int i=0; i<Product.productType.values().length; i++){
+                                values[i] = test.get(Product.productType.values()[0]).toString();
+                            }
+                            out.writeObject(values);
+                            break;
+                        case "buy":
+                            storeManager.addProducts(allParameter);
                     }
                     sendMessage(message);
 
