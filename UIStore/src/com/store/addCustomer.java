@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static com.store.StoreInventory.customer;
+import static com.store.StoreInventory.customers;
+
 public class addCustomer {
     JLabel name,id,phone,branchName, customerType;
     JTextField nameT,idT,phoneT;
@@ -59,7 +62,7 @@ public class addCustomer {
         panel.add(branchNameT);
 
 
-        customerType =new JLabel("customer type:");
+        customerType = new JLabel("customer type:");
         customerType.setBounds(10, 160, 80, 25);
         panel.add(customerType);
 
@@ -96,10 +99,11 @@ public class addCustomer {
                         toServer = new ObjectOutputStream(socket.getOutputStream());
                         String Line = "customer"+","+(String) customerTypeCombo.getSelectedItem()+","+nameT.getText()+","
                                 +idT.getText()+","+phoneT.getText()+","+branchNameT.getSelectedItem();
-
                         toServer.writeObject(Line);
                         Line = (String) fromServer.readObject();
                         System.out.println(Line);
+                        customer = Line;
+                        customers.addItem(customer);
                     }
                     catch (Exception e1){
                         JOptionPane.showMessageDialog(null, e1.getMessage());}
@@ -113,8 +117,6 @@ public class addCustomer {
                 {
                     throwable.printStackTrace();
                 }
-                //new worker
-                // add worker to branch
             }
         });
 

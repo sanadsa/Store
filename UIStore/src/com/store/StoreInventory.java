@@ -22,12 +22,16 @@ import javax.swing.border.EmptyBorder;
 public class StoreInventory
 {
     private JPanel Panel;
-    JComboBox typeToSearch, branchNameT;
+    JComboBox typeToSearch;
+    static JComboBox customers;
     JButton buy,sell,search, report, addCustomer, showProducts;
-    JLabel amount;
+    JLabel branch;
+    private String name;
     static String[] values = null;
+    static String customer = null;
 
-    public StoreInventory() {
+    public StoreInventory(String nameOfBranch) {
+        name = nameOfBranch;
         JFrame frame = new JFrame("store app");
         frame.setSize(300, 150);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,23 +39,9 @@ public class StoreInventory
         Panel= new JPanel();
         frame.add(Panel);
 
-        branchNameT = new JComboBox();
-        branchNameT.addItem("TLV");
-        branchNameT.addItem("Haifa");
-        branchNameT.setBounds(100, 130, 160, 25);
-        branchNameT.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-               updateProducts();
-            }
-        });
-        Panel.add(branchNameT);
-
-        amount= new JLabel("0");
-        amount.setBounds(10, 10, 80, 25);
-        //Panel.add(amount);
+        branch = new JLabel(nameOfBranch);
+        branch.setBounds(100, 130, 160, 25);
+        Panel.add(branch);
 
         typeToSearch = new JComboBox();
         updateProducts();
@@ -72,10 +62,11 @@ public class StoreInventory
 
                 try {
                     Socket socket = new Socket("localhost", 2004);
-                    String Line = "buy" + "," + branchNameT.getSelectedItem();
+                    String Line = "buy" + "," + nameOfBranch;
                     fromServer = new ObjectInputStream(socket.getInputStream());
                     toServer = new ObjectOutputStream(socket.getOutputStream());
                     toServer.writeObject(Line);
+                    updateProducts();
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.getMessage());
                 }
@@ -100,42 +91,18 @@ public class StoreInventory
                 try {
                     Socket socket = new Socket("localhost", 2004);
                     String[] test = typeToSearch.getSelectedItem().toString().split(" ");
-                    String Line = "sell" + "," + branchNameT.getSelectedItem() + "," + test[0];
+                    String Line = "sell" + "," + nameOfBranch + "," + test[0];
                     fromServer = new ObjectInputStream(socket.getInputStream());
                     toServer = new ObjectOutputStream(socket.getOutputStream());
                     toServer.writeObject(Line);
+                    updateProducts();
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, e1.getMessage());
                 }
+                updateProducts();
             }
         });
         Panel.add(sell);
-
-//        showProducts = new JButton("show products in inventory");
-//        showProducts.setBounds(180, 80, 80, 25);
-//        showProducts.addActionListener(new ActionListener()
-//        {
-//            @Override
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                if(typeToSearch.isVisible()) {
-//                    typeToSearch.setVisible(typeToSearch.isVisible());
-//                }
-//                else{
-//                    typeToSearch.setVisible(!typeToSearch.isVisible());
-//                }
-//                getNumberOfSales();
-//                typeToSearch.removeAllItems();
-//                typeToSearch.addItem("SportsPants " + values[0]);
-//                typeToSearch.addItem("customMade " + values[1]);
-//                typeToSearch.addItem("jeans " + values[2]);
-//                typeToSearch.addItem("tShirt " + values[3]);
-//                typeToSearch.addItem("TailoredShirt " + values[4]);
-//                typeToSearch.addItem("coat " + values[5]);
-//                typeToSearch.addItem("sweater " + values[6]);
-//            }
-//        });
-//        //Panel.add(showProducts);
 
         addCustomer=new JButton("add Customer");
         addCustomer.setLayout(null);
@@ -146,6 +113,8 @@ public class StoreInventory
             public void actionPerformed(ActionEvent e)
             {
                 new addCustomer();
+                customers.setVisible(true);
+                //customers.addItem(customer);
             }
         });
         Panel.add(addCustomer);
@@ -163,10 +132,11 @@ public class StoreInventory
         });
         Panel.add(report);
 
-        search=new JButton("search");
-        search.setLayout(null);
-        search.setBounds(10, 10, 80, 25);
-        Panel.add(search);
+        customers = new JComboBox();
+        customers.setBounds(100, 130, 160, 25);
+        Panel.add(customers);
+        customers.setVisible(!customers.isVisible());
+
         Panel.setVisible(true);
         frame.setVisible(true);
     }
@@ -189,7 +159,7 @@ public class StoreInventory
 
         try {
             Socket socket = new Socket("localhost", 2004);
-            String Line = "products" + "," + branchNameT.getSelectedItem();
+            String Line = "products" + "," + name;
             fromServer = new ObjectInputStream(socket.getInputStream());
             toServer = new ObjectOutputStream(socket.getOutputStream());
             toServer.writeObject(Line);

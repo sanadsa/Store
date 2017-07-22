@@ -6,7 +6,12 @@ public abstract class Worker extends Person
 {
     private String numberAcount;
     private String password;
-	 private String melak;
+    private String branch;
+
+    public String getBranch()
+    {
+        return branch;
+    }
 
     public String getNumberAcount()
     {
@@ -18,9 +23,10 @@ public abstract class Worker extends Person
         return password;
     }
 
-    public Worker(String name, String id, String phone,  String numberAcount, String password)
+    public Worker(String name, String id, String phone,String branchName,  String numberAcount, String password)
     {
         super(name, id, phone);
+        branch=branchName;
         this.numberAcount = numberAcount;
         this.password=password;
     }

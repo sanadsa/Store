@@ -13,6 +13,7 @@ public class storeManager
 {
     public static Branch TLVStore = new Branch("TLV","03-2323232","ibn Gabirol 15");
     public static Branch HaifaStore = new Branch("Haifa","02-2323232","Allenby");
+    public static Product product = new Product();
 
     public static Branch getBranch(String branchName){
         if(TLVStore.getBranchName()==branchName)
@@ -24,17 +25,17 @@ public class storeManager
         Worker typeWorker=null;
         switch (input[1])
         {
-            case "responsible Shift":
-                typeWorker= new responsibleShift(input[2],input[3],input[4],input[6],input[7]);
+            case "responsibleShift":
+                typeWorker= new responsibleShift(input[2],input[3],input[4],input[5],input[6],input[7]);
                 break;
             case "Seller":
-                typeWorker= new Seller(input[2],input[3],input[4],input[6],input[7]);
+                typeWorker= new Seller(input[2],input[3],input[4],input[5],input[6],input[7]);
                 break;
             case "Cashier":
-                typeWorker= new Cashier(input[2],input[3],input[4],input[6],input[7]);
+                typeWorker= new Cashier(input[2],input[3],input[4],input[5],input[6],input[7]);
                 break;
         }
-        if(input[5].equals("TLV"))
+        if(typeWorker.getBranch().equals("TLV"))
             storeManager.TLVStore.addWorker(typeWorker);
         else storeManager.HaifaStore.addWorker(typeWorker);
         return typeWorker;
@@ -42,6 +43,8 @@ public class storeManager
 
     public static Customer createCustomer(String[] input){
         Customer customerType = null;
+        JsonFormat jsonFormat = new JsonFormat("C:\\java project\\Customers.txt");
+        String stringJson;
         switch (input[1])
         {
             case "NewCustomer":
@@ -63,6 +66,8 @@ public class storeManager
                 else storeManager.HaifaStore.addVIPCustomer(customerType);
                 break;
         }
+        stringJson = jsonFormat.toJsonObject(customerType);
+        jsonFormat.writeFile(stringJson);
         return customerType;
     }
 
@@ -89,26 +94,26 @@ public class storeManager
 
     public static Worker searchWorker(String name, String Password)
     {
-        boolean isFound=false;
-        Worker workerFound=null;
+        boolean isFound = false;
+        Worker workerFound = null;
         for (Worker wo :TLVStore.getWorkerInBranch())
         {
-            if(wo.getPassword()==Password && wo.getName() ==name)
+            if(wo.getPassword().equals(Password) && wo.getName().equals(name))
             {
                 workerFound = wo;
-                isFound=true;
+                isFound = true;
                 break;
             }
         }
         if(!isFound)
-        for (Worker wo : HaifaStore.getWorkerInBranch())
-        {
-            if(wo.getPassword()==Password && wo.getName() ==name)
+            for (Worker wo : HaifaStore.getWorkerInBranch())
             {
-                workerFound = wo;
-                break;
+                if(wo.getPassword().equals(Password) && wo.getName().equals(name))
+                {
+                    workerFound = wo;
+                    break;
+                }
             }
-        }
         return  workerFound;
     }
 

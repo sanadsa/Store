@@ -5,8 +5,17 @@ package com.hit.worker;
  */
 public class Cashier extends Worker
 {
-    public Cashier(String name, String id, String phone, String numberAcount, String password)
+    String type;
+
+    public String getType()
     {
-        super(name, id, phone, numberAcount,password);
+        return type;
     }
+
+    public Cashier(String name, String id, String phone, String branchName, String numberAcount, String password)
+    {
+        super(name, id, phone, branchName, numberAcount, password);
+        type= typeWorker.Cashier.toString();
+    }
+
 }

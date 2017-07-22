@@ -13,37 +13,39 @@ import java.util.Map;
 
 public class Provider
 {
-    public static BufferedReader DataBaseTLVForRead;
-    public static BufferedReader DataBaseHiafaForRead;
-
-    private static PrintWriter DataBaseTLVForWrite;
-    private static PrintWriter DataBaseHiafaforWrite;
-
-    static
-    {
-        try
-        {
-            DataBaseHiafaforWrite = new PrintWriter(new BufferedWriter
-                    (new FileWriter("C:\\dev\\java\\text1.txt")));
-            DataBaseTLVForWrite =new PrintWriter( new BufferedWriter
-                    (new FileWriter("C:\\dev\\java\\text.txt")));
-        }
-        catch (final IOException e) {
-        throw new ExceptionInInitializerError(e.getMessage());
-        }
-    }
+//    public static BufferedReader DataBaseTLVForRead;
+//    public static BufferedReader DataBaseHiafaForRead;
+//
+//    private static PrintWriter DataBaseTLVForWrite;
+//    private static PrintWriter DataBaseHiafaforWrite;
+//
+//    static
+//    {
+//        try
+//        {
+//            DataBaseHiafaforWrite = new PrintWriter(new BufferedWriter
+//                    (new FileWriter("C:\\dev\\java\\text1.txt")));
+//            DataBaseTLVForWrite =new PrintWriter( new BufferedWriter
+//                    (new FileWriter("C:\\dev\\java\\text.txt")));
+//        }
+//        catch (final IOException e) {
+//        throw new ExceptionInInitializerError(e.getMessage());
+//        }
+//    }
 
     ServerSocket providerSocket;
     Socket connection = null;
     ObjectOutputStream out;
     ObjectInputStream in;
     String message;
+    private JsonFormat json;
 
     public Provider()
     {
+        json = new JsonFormat("C:\\java project\\worker.txt");
     }
 
-    public static void readDataBase() throws IOException
+  /*  public static void readDataBase() throws IOException
     {
         try
         {
@@ -93,7 +95,7 @@ public class Provider
             e.printStackTrace();
         }
     }
-
+*/
 
     public void sendMessage(String msg)
     {
@@ -132,16 +134,19 @@ public class Provider
                     {
                         case "register":
                             Worker newWorker = storeManager.createWorkerAndInsert(allParameter);
-                            upDate();
+                            json.toJson(newWorker);
+                           // upDate();
                             break;
                         case "search":
+                            json.fromJson();
                             Worker LoginWorker = storeManager.searchWorker(allParameter[1], allParameter[2]);
                             if (LoginWorker == null)
                             {
-                                out.writeObject(null);
-                            } else
+                                out.writeObject("null");
+                            }
+                            else
                             {
-                                sendMessage(LoginWorker.toString());
+                                sendMessage(LoginWorker.getBranch());
                             }
                             break;
                         case "report":
@@ -157,9 +162,10 @@ public class Provider
                                     report.getVipCustomers(allParameter[2]);
                                     break;
                             }
+                            break;
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
-                            //write to database
+                            out.writeObject(newCustomer.toString());
                             break;
                         case "products":
                             Map<Product.productType, Integer> test = new HashMap<Product.productType, Integer>();

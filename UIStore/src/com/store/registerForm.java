@@ -12,8 +12,7 @@ import java.util.Scanner;
 public class registerForm
 {
 JLabel name,id,password,phone,branchName,acountNumber,typeWorker;
-JTextField nameT,idT,phoneT,acountNumberT;
-JPasswordField passwordField;
+JTextField nameT,idT,phoneT,acountNumberT, passwordField;
 JComboBox typeWork,branchNameT;
 JButton submit;
     private String BranchPhoneTLV="03-2323232";
@@ -73,7 +72,7 @@ JButton submit;
         password.setBounds(10, 160, 80, 25);
         panel.add(password);
 
-        passwordField = new JPasswordField(20);
+        passwordField = new JTextField(20);
         passwordField.setBounds(10, 160, 80, 25);
         panel.add(passwordField);
 
@@ -83,9 +82,9 @@ JButton submit;
 
         typeWork=new JComboBox();
         typeWork.addItem("");
-        typeWork.addItem("responsible Shift");
-        typeWork.addItem("seller");
-        typeWork.addItem("cashier");
+        typeWork.addItem("responsibleShift");
+        typeWork.addItem("Seller");
+        typeWork.addItem("Cashier");
         panel.add(typeWork);
 
         submit=new JButton("submit");
@@ -102,7 +101,7 @@ JButton submit;
 
                 if((String)typeWork.getSelectedItem()=="" || nameT.getText()=="" || idT.getText()==""
                || phoneT.getText()=="" ||branchNameT.getSelectedItem()==""||acountNumberT.getText()==""||
-                        passwordField.getPassword().equals(""))
+                        passwordField.getText().equals(""))
                 {
                     msgbox("pleas fill all!");
                 }
@@ -115,7 +114,7 @@ JButton submit;
                             toServer = new ObjectOutputStream(sockt.getOutputStream());
                             String Line = "register"+","+(String)typeWork.getSelectedItem()+","+nameT.getText()+","
                                     +idT.getText()+","+phoneT.getText()+","+branchNameT.getSelectedItem()+
-                                    ","+acountNumberT.getText()+","+passwordField.getPassword();
+                                    ","+acountNumberT.getText()+","+passwordField.getText();
 
                             toServer.writeObject(Line);
                             Line = (String) fromServer.readObject();

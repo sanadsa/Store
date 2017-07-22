@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class Product {
     private productType name;
-    private double price;
     public enum productType
     {
         SportsPants,
@@ -29,20 +28,8 @@ public class Product {
         }
     }
 
-    public void setPrices(){
-
-    }
-
     public productType getName() {
         return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 }
 

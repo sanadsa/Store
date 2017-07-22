@@ -31,7 +31,7 @@ public class connection extends JFrame
         passwordLabel.setBounds(10, 40, 80, 25);
         panel.add(passwordLabel);
 
-        JPasswordField passwordText = new JPasswordField(20);
+        JTextField passwordText = new JTextField(20);
         passwordText.setBounds(100, 40, 160, 25);
         panel.add(passwordText);
 
@@ -42,11 +42,9 @@ public class connection extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-               StoreInventory r = new StoreInventory();
-
                 ObjectInputStream fromServer;
                 ObjectOutputStream  toServer;
-                if( userText.getText()=="" || passwordText.getPassword().equals(""))
+                if( userText.getText()=="" || passwordText.getText().equals(""))
                 {
                    registerForm.msgbox("pleas fill all!");
                 }
@@ -56,13 +54,19 @@ public class connection extends JFrame
                         {
                             Socket sockt = new Socket("localhost", 2004);
 
-                            String Line = "search" + "," + userText.getText() + "," + passwordText.getPassword().toString();
+                            String Line = "search" + "," + userText.getText() + "," + passwordText.getText().toString();
 
                               fromServer = new ObjectInputStream (sockt.getInputStream());
                               toServer = new ObjectOutputStream(sockt.getOutputStream());
                               toServer.writeObject(Line);
                               Line = fromServer.readObject().toString();
-                              System.out.println(Line);
+                              if(Line.equals("null"))
+                              {
+                                  JOptionPane.showMessageDialog(null,"the worker not found,register please");
+                              }
+                              else {
+                                  StoreInventory r = new StoreInventory(Line);
+                              }
                         }
                         catch (Exception e1){
                             JOptionPane.showMessageDialog(null, e1.getMessage());}

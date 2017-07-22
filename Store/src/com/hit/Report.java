@@ -40,12 +40,12 @@ public class Report {
 //        } catch (Exception json){
 //            System.out.println(json.getMessage());
 //        }
-        jsonFormat = new JsonFormat("C:\\dev\\java\\quantityOfSales.txt");
+        jsonFormat = new JsonFormat("C:\\java project\\quantityOfSales.txt");
         if(branch == "TLV") {
-            stringJson = jsonFormat.toJson(storeManager.TLVStore.getQuantityOfSales());
+            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getQuantityOfSales());
         }
         else{
-            stringJson = jsonFormat.toJson(storeManager.HaifaStore.getQuantityOfSales());
+            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getQuantityOfSales());
         }
         jsonFormat.writeFile(stringJson);
     }
@@ -55,7 +55,7 @@ public class Report {
      * @param product the product we want to get its report
      */
     public void showReportOfProduct(String product){
-        jsonFormat = new JsonFormat("C:\\dev\\java\\productsReport.txt");
+        jsonFormat = new JsonFormat("C:\\java project\\productsReport.txt");
         Product.productType enumProduct = Product.productType.valueOf(product);
         int salesOfProduct;
         System.out.println(enumProduct);
@@ -69,24 +69,25 @@ public class Report {
 //        }
         salesOfProduct = storeManager.TLVStore.getNumberOfSales().get(enumProduct);
         //String stringJson = jsonFormat.toJson(enumProduct + "" + salesOfProduct);
-        stringJson = jsonFormat.toJson(storeManager.TLVStore.getNumberOfSales());
+        stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getNumberOfSales());
         System.out.println(stringJson);
         jsonFormat.writeFile(stringJson);
     }
 
     /**
      * shows the vip customers
+     * @param branch the branch that contains the customers
      * @return list of the vip customer
      */
     public void getVipCustomers(String branch) {
         //String stringJson;
-        jsonFormat = new JsonFormat("C:\\dev\\java\\vipReport.txt");
+        jsonFormat = new JsonFormat("C:\\java project\\vipReport.txt");
 
         if(branch.equals("TLV")) {
-            stringJson = jsonFormat.toJson(storeManager.TLVStore.getVipCustomers());
+            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getVipCustomers());
         }
         else {
-            stringJson = jsonFormat.toJson(storeManager.HaifaStore.getVipCustomers());
+            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getVipCustomers());
         }
 
         jsonFormat.writeFile(stringJson);
