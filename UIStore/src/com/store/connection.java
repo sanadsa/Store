@@ -16,9 +16,10 @@ import java.util.Scanner;
 public class connection extends JFrame
 {
     private JPanel panel;
-
-    connection()
+    private Socket socket;
+    connection(Socket sockt)
     {
+        socket=sockt;
         JFrame frame = new JFrame("Store app - LogIn");
         frame.setSize(300, 150);
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -75,12 +76,9 @@ public class connection extends JFrame
                     {
                         try
                         {
-                            Socket sockt = new Socket("localhost", 2004);
-
                             String Line = "search" + "," + userText.getText() + "," + passwordText.getText().toString();
-
-                              fromServer = new ObjectInputStream (sockt.getInputStream());
-                              toServer = new ObjectOutputStream(sockt.getOutputStream());
+                              fromServer = new ObjectInputStream (socket.getInputStream());
+                              toServer = new ObjectOutputStream(socket.getOutputStream());
                               toServer.writeObject(Line);
                               Line = fromServer.readObject().toString();
                               if(Line.equals("null"))
@@ -88,7 +86,7 @@ public class connection extends JFrame
                                   JOptionPane.showMessageDialog(null,"the worker not found,register please");
                               }
                               else {
-                                  StoreInventory r = new StoreInventory(Line);
+                                  StoreInventory r = new StoreInventory(Line,sockt);
                               }
                         }
                         catch (Exception e1){
@@ -113,7 +111,7 @@ public class connection extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new registerForm();
+                new registerForm(sockt);
             }
         });
         panel.add(registerButton);

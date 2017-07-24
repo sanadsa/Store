@@ -32,8 +32,9 @@ public class StoreInventory
     private String name;
     static String[] values = null;
     static String customer = null;
-
-    public StoreInventory(String nameOfBranch) {
+private Socket sockt;
+    public StoreInventory(String nameOfBranch,Socket socket) {
+        sockt=socket;
         name = nameOfBranch;
         JFrame frame = new JFrame("Store App");
         frame.setSize(300, 150);
@@ -82,10 +83,9 @@ public class StoreInventory
                 ObjectOutputStream toServer;
 
                 try {
-                    Socket socket = new Socket("localhost", 2004);
                     String Line = "buy" + "," + nameOfBranch;
-                    fromServer = new ObjectInputStream(socket.getInputStream());
-                    toServer = new ObjectOutputStream(socket.getOutputStream());
+                    fromServer = new ObjectInputStream(sockt.getInputStream());
+                    toServer = new ObjectOutputStream(sockt.getOutputStream());
                     toServer.writeObject(Line);
                     updateProducts();
                 } catch (Exception e1) {
@@ -110,11 +110,10 @@ public class StoreInventory
                 ObjectOutputStream toServer;
 
                 try {
-                    Socket socket = new Socket("localhost", 2004);
                     String[] test = typeToSearch.getSelectedItem().toString().split(" ");
                     String Line = "sell" + "," + nameOfBranch + "," + test[0];
-                    fromServer = new ObjectInputStream(socket.getInputStream());
-                    toServer = new ObjectOutputStream(socket.getOutputStream());
+                    fromServer = new ObjectInputStream(sockt.getInputStream());
+                    toServer = new ObjectOutputStream(sockt.getOutputStream());
                     toServer.writeObject(Line);
                     updateProducts();
                 } catch (Exception e1) {
@@ -133,9 +132,9 @@ public class StoreInventory
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new addCustomer();
+                new addCustomer(name,sockt);
+                getCustomers();
                 customers.setVisible(true);
-                //customers.addItem(customer);
             }
         });
         Panel.add(addCustomer);
@@ -148,7 +147,7 @@ public class StoreInventory
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new ReportForm();
+                new ReportForm(name,sockt);
             }
         });
         Panel.add(report);
@@ -183,12 +182,16 @@ public class StoreInventory
         List<String> allCustomerName = null;
 
         try {
-            Socket socket = new Socket("localhost", 2004);
             String Line = "getCustomers" + "," + name;
-            fromServer = new ObjectInputStream(socket.getInputStream());
-            toServer = new ObjectOutputStream(socket.getOutputStream());
+            fromServer = new ObjectInputStream(sockt.getInputStream());
+            toServer = new ObjectOutputStream(sockt.getOutputStream());
             toServer.writeObject(Line);
-            customers.addItem((String) fromServer.readObject());
+            customers.removeAllItems();
+            int num =(int) fromServer.readObject();
+            for (int i=0;i<num;i++)
+            {
+               customers.addItem((String)fromServer.readObject());
+            }
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, e1.getMessage());
         }
@@ -212,10 +215,9 @@ public class StoreInventory
         ObjectOutputStream toServer;
 
         try {
-            Socket socket = new Socket("localhost", 2004);
             String Line = "products" + "," + name;
-            fromServer = new ObjectInputStream(socket.getInputStream());
-            toServer = new ObjectOutputStream(socket.getOutputStream());
+            fromServer = new ObjectInputStream(sockt.getInputStream());
+            toServer = new ObjectOutputStream(sockt.getOutputStream());
             toServer.writeObject(Line);
             values = (String[]) fromServer.readObject();
         } catch (Exception e1) {

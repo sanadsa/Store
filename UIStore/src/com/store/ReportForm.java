@@ -11,21 +11,14 @@ public class ReportForm {
     private JPanel reportPanel = new JPanel();
     private JButton numberOfSales, productReportButton, VIPCustomersButton;
     private JLabel branchName;
-    private JComboBox productsJCombo, branchNameT;
-    private Socket socket;
+    private JComboBox productsJCombo;
+    private Socket sockt;
     private String product;
 
-    public ReportForm(){
+    public ReportForm(String nameOfBranch,Socket socket){
+        sockt=socket;
         JFrame frame = new JFrame("ReportForm");
         frame.setSize(300, 150);
-
-        try {
-           socket = new Socket("localhost", 2004);
-        }
-        catch (Exception e1)
-        {
-            JOptionPane.showMessageDialog(null, e1.getMessage());
-        }
 
         numberOfSales.addActionListener(new ActionListener() {
             @Override
@@ -35,11 +28,11 @@ public class ReportForm {
                 ObjectOutputStream toServer;
 
 
-                if (branchNameT.getSelectedItem() == "") {
+                if (branchName.getText().equals("")) {
                     msgbox("please choose branch");
                 } else {
                     try {
-                        String Line = "report" + "," + "numberOfSales" + "," + branchNameT.getSelectedItem();
+                        String Line = "report" + "," + "numberOfSales" + "," + branchName.getText();
                         fromServer = new ObjectInputStream(socket.getInputStream());
                         toServer = new ObjectOutputStream(socket.getOutputStream());
                         toServer.writeObject(Line);
@@ -65,16 +58,10 @@ public class ReportForm {
         productsJCombo.setBounds(10, 10, 80, 25);
         reportPanel.add(productsJCombo);
 
-        branchName = new JLabel("branchName:         ");
+        branchName = new JLabel(nameOfBranch);
         branchName.setBounds(10, 130, 80, 25);
         reportPanel.add(branchName);
 
-        branchNameT = new JComboBox();
-        branchNameT.addItem("");
-        branchNameT.addItem("TLV");
-        branchNameT.addItem("Haifa");
-        branchNameT.setBounds(100, 130, 160, 25);
-        reportPanel.add(branchNameT);
 
         productReportButton.addActionListener(new ActionListener() {
             @Override
@@ -86,7 +73,7 @@ public class ReportForm {
                     ObjectInputStream fromServer;
                     ObjectOutputStream toServer;
 
-                if (branchNameT.getSelectedItem() == "") {
+                if (branchName.getText().equals( "")) {
                     msgbox("please choose branch");
                 } else {
                     try {
@@ -112,11 +99,11 @@ public class ReportForm {
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
-                if (branchNameT.getSelectedItem() == "") {
+                if (branchName.getText().equals( "")) {
                     msgbox("please choose branch");
                 } else {
                     try {
-                        String Line = "report" + "," + "vipCustomers" + "," + branchNameT.getSelectedItem();
+                        String Line = "report" + "," + "vipCustomers" + "," + branchName.getText();
                         fromServer = new ObjectInputStream(socket.getInputStream());
                         toServer = new ObjectOutputStream(socket.getOutputStream());
                         toServer.writeObject(Line);

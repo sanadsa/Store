@@ -85,10 +85,10 @@ public class Report {
         jsonFormat = new JsonFormat("C:\\java project\\vipReport.txt");
 
         if(branch.equals("TLV")) {
-            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getCustomerByType(customerType.VIP));
+            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getCustomerByType(customerType.VIPCustomer));
         }
         else {
-            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getCustomerByType(customerType.VIP));
+            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getCustomerByType(customerType.VIPCustomer));
         }
 
         jsonFormat.writeFile(stringJson);

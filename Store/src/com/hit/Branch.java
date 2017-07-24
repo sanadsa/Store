@@ -45,7 +45,7 @@ public class Branch {
         List <Customer> customerByType=null;
         switch (input)
         {
-            case VIP:
+            case VIPCustomer:
                 customerByType = new ArrayList<Customer>();
                 for (Customer ViPCustomer: allCustomers)
                 {
@@ -55,7 +55,7 @@ public class Branch {
                     }
                 }
                 break;
-            case Returning:
+            case ReturningCustomer:
                 customerByType = new ArrayList<Customer>();
                 for (Customer returnCustomer: allCustomers)
                 {
@@ -65,7 +65,7 @@ public class Branch {
                     }
                 }
                 break;
-            case NEW:
+            case NewCustomer:
                 customerByType = new ArrayList<Customer>();
                 for (Customer newCustomer: allCustomers)
                 {

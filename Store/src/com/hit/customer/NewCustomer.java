@@ -9,7 +9,7 @@ public class NewCustomer extends Customer {
 
     public NewCustomer(String customerName, String customerId, String customerPhone, String belongName)
     {
-        super(customerName, customerId, customerPhone, belongName, customerType.NEW);
+        super(customerName, customerId, customerPhone, belongName, customerType.NewCustomer);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class VIPCustomer extends Customer
 
     public VIPCustomer(String customerName, String customerId, String customerPhone, String branchName)
     {
-        super(customerName, customerId, customerPhone, branchName, customerType.VIP);
+        super(customerName, customerId, customerPhone, branchName, customerType.VIPCustomer);
     }
 
     @Override

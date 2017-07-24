@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Provider
+public class Provider implements Runnable
 {
 //    public static BufferedReader DataBaseTLVForRead;
 //    public static BufferedReader DataBaseHiafaForRead;
@@ -44,63 +44,13 @@ public class Provider
     private JsonFormat json;
     private JsonFormat jsonCastomer;
 
-    public Provider()
+    public Provider(Socket socket)
     {
+        connection=socket;
         json = new JsonFormat("C:\\java project\\worker.txt");
         jsonCastomer = new JsonFormat("C:\\java project\\Customers.txt");
     }
 
-  /*  public static void readDataBase() throws IOException
-    {
-        try
-        {
-            StringBuilder sb = new StringBuilder();
-            String line = DataBaseTLVForRead.readLine();
-            while (line != null)
-            {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = DataBaseTLVForRead.readLine();
-                String everything = sb.toString();
-                /////////
-            }
-
-            StringBuilder hifa = new StringBuilder();
-            String hifaLine = DataBaseHiafaForRead.readLine();
-            while (hifaLine != null)
-            {
-                hifa.append(line);
-                hifa.append(System.lineSeparator());
-                hifaLine = DataBaseHiafaForRead.readLine();
-                String everythingh = hifa.toString();
-            }
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public static void upDate() throws IOException
-    {
-        try
-        {
-            for (Worker workerobj : storeManager.HaifaStore.getWorkerInBranch())
-            {
-                DataBaseHiafaforWrite.println(workerobj.toString());
-                DataBaseHiafaforWrite.flush();
-            }
-            for (Worker workerobj : storeManager.TLVStore.getWorkerInBranch())
-            {
-                DataBaseTLVForWrite.write(workerobj.toString());
-                DataBaseTLVForWrite.flush();
-            }
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-*/
 
     public void sendMessage(String msg)
     {
@@ -114,16 +64,12 @@ public class Provider
             ioException.printStackTrace();
         }
     }
-
+     @Override
     public void run()
     {
         try
         {
-            //1. creating a server socket
-            providerSocket = new ServerSocket(2004, 10);
-            //2. Wait for connection
-            System.out.println("Waiting for connection");
-            connection = providerSocket.accept();
+
             System.out.println("Connection received from " + connection.getInetAddress().getHostName());
             //3. get Input and Output streams
             out = new ObjectOutputStream(connection.getOutputStream());
@@ -171,7 +117,7 @@ public class Provider
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
                             jsonCastomer.toJson(newCustomer);
-                            //out.writeObject(json.toJsonObject());
+                            sendMessage(newCustomer.getName());
                             break;
                         case "products":
                             Map<Product.productType, Integer> test = new HashMap<Product.productType, Integer>();
@@ -211,7 +157,8 @@ public class Provider
                                 out.writeObject("null");
                             }
                             else {
-                                for (int i=0; i<allCustomerName.size(); i++) {
+                                out.writeObject(allCustomerName.size());
+                            for (int i=0; i<allCustomerName.size(); i++) {
                                     out.writeObject(allCustomerName.get(i));}
                             }
                             break;

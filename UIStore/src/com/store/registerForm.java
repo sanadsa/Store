@@ -18,9 +18,10 @@ JButton submit;
     private String BranchPhoneTLV="03-2323232";
     private String BranchPhoneHaifa="02-2323232";
     private JPanel panel= new JPanel();;
-
-    public registerForm()
+private Socket sockt;
+    public registerForm(Socket socket)
     {
+        sockt=socket;
         JFrame frame = new JFrame("register");
         frame.setSize(250, 450);
 
@@ -108,7 +109,6 @@ JButton submit;
                     {
                         try
                         {
-                            Socket sockt = new Socket("localhost", 2004);
                             fromServer = new ObjectInputStream(sockt.getInputStream());
                             toServer = new ObjectOutputStream(sockt.getOutputStream());
                             String Line = "register"+","+(String)typeWork.getSelectedItem()+","+nameT.getText()+","

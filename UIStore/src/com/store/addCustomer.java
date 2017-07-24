@@ -13,18 +13,21 @@ import static com.store.StoreInventory.customers;
 public class addCustomer {
     JLabel name,id,phone,branchName, customerType;
     JTextField nameT,idT,phoneT;
-    JPasswordField passwordField;
-    JComboBox customerTypeCombo, branchNameT;
+    JComboBox customerTypeCombo;
     JButton submit;
-    private String BranchPhoneTLV="03-2323232";
-    private String BranchPhoneHaifa="02-2323232";
     private JPanel panel= new JPanel();;
 
-    public addCustomer()
+    private Socket sockt;
+    public addCustomer(String nameOfBranch,Socket socket)
     {
+        sockt=socket;
         JFrame frame = new JFrame("Add Customer");
         frame.setSize(250, 450);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        branchName = new JLabel( nameOfBranch);
+        branchName.setBounds(10, 130, 80, 25);
+        panel.add(branchName);
 
         name = new JLabel("full name:");
         name.setBounds(10, 10, 80, 25);
@@ -50,17 +53,6 @@ public class addCustomer {
         phoneT.setBounds(100, 100, 160, 25);
         panel.add(phoneT);
 
-        branchName = new JLabel("branchName:         ");
-        branchName.setBounds(10, 130, 80, 25);
-        panel.add(branchName);
-
-        branchNameT = new JComboBox();
-        branchNameT.addItem("");
-        branchNameT.addItem("TLV");
-        branchNameT.addItem("Haifa");
-        branchNameT.setBounds(100, 130, 160, 25);
-        panel.add(branchNameT);
-
 
         customerType = new JLabel("customer type:");
         customerType.setBounds(10, 160, 80, 25);
@@ -85,8 +77,8 @@ public class addCustomer {
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
-                if((String) customerTypeCombo.getSelectedItem()=="" || nameT.getText()=="" || idT.getText()==""
-                        || phoneT.getText()=="")
+                if(customerTypeCombo.getSelectedItem().toString().equals("") || nameT.getText().equals("") || idT.getText().equals("")
+                        || phoneT.getText().equals(""))
                 {
                     msgbox("pleas fill all!");
                 }
@@ -94,16 +86,12 @@ public class addCustomer {
                 {
                     try
                     {
-                        Socket socket = new Socket("localhost", 2004);
                         fromServer = new ObjectInputStream(socket.getInputStream());
                         toServer = new ObjectOutputStream(socket.getOutputStream());
                         String Line = "customer"+","+(String) customerTypeCombo.getSelectedItem()+","+nameT.getText()+","
-                                +idT.getText()+","+phoneT.getText()+","+branchNameT.getSelectedItem();
+                                +idT.getText()+","+phoneT.getText()+","+branchName.getText();
                         toServer.writeObject(Line);
-                        Line = (String) fromServer.readObject();
-                        System.out.println(Line);
-//                        customer = Line;
-//                        customers.addItem(customer);
+
                     }
                     catch (Exception e1){
                         JOptionPane.showMessageDialog(null, e1.getMessage());}

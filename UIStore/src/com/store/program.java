@@ -28,7 +28,8 @@ public class program
 //         System.out.println(Line);
            //     System.out.println(input.readLine()); // Read one line and output it
              //   input.close();
-            new connection();
+            Socket sockt = new Socket("localhost", 2004);
+            new connection(sockt);
         }
         catch(Exception e)
         {

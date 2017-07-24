@@ -73,7 +73,7 @@ public class storeManager
         System.out.println(input[2]);
         Product.productType product = Product.productType.valueOf(input[2]);
         if(input[1].equals("TLV"))
-            storeManager.TLVStore.sellProduct(product);//, input[3]);
+            storeManager.TLVStore.sellProduct(product);
         else
             storeManager.HaifaStore.sellProduct(product);
     }

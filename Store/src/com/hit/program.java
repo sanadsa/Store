@@ -13,11 +13,14 @@ import java.util.Scanner;
 public class program
 {
 
-    public static void main(String[] args ) throws IOException{
+    public static void main(String[] args )   throws IOException{
 
-        Provider server = new Provider();
+        //1. creating a server socket
+        ServerSocket  providerSocket = new ServerSocket(2004, 10);
             while(true){
-                server.run();
+                System.out.println("wait to connection");
+                Socket  connection = providerSocket.accept();
+                new Thread(new Provider(connection)).run();
             }
 
     }
