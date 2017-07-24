@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Provider
@@ -40,10 +42,12 @@ public class Provider
     ObjectInputStream in;
     String message;
     private JsonFormat json;
+    private JsonFormat jsonCastomer;
 
     public Provider()
     {
         json = new JsonFormat("C:\\java project\\worker.txt");
+        jsonCastomer = new JsonFormat("C:\\java project\\Customers.txt");
     }
 
   /*  public static void readDataBase() throws IOException
@@ -166,7 +170,8 @@ public class Provider
                             break;
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
-                            out.writeObject(json.toJsonObject(newCustomer));
+                            jsonCastomer.toJson(newCustomer);
+                            //out.writeObject(json.toJsonObject());
                             break;
                         case "products":
                             Map<Product.productType, Integer> test = new HashMap<Product.productType, Integer>();
@@ -191,8 +196,24 @@ public class Provider
                             storeManager.sellProduct(allParameter);
                             break;
                         case "getCustomers":
-                            String[] s = json.fromFile("path");
-                            out.writeObject(s);
+                            jsonCastomer.fromJsonCustomer();
+                            List<String> allCustomerName=new ArrayList<String>();
+                            if(allParameter[1].equals("TLV")) {
+                                for (Customer customer : storeManager.TLVStore.getAllCustomers()) {
+                                    allCustomerName.add(customer.getName());
+                                }
+                            } else {
+                                for (Customer customer : storeManager.HaifaStore.getAllCustomers()) {
+                                    allCustomerName.add(customer.getName());
+                                }
+                            }
+                            if(allCustomerName.isEmpty()) {
+                                out.writeObject("null");
+                            }
+                            else {
+                                for (int i=0; i<allCustomerName.size(); i++) {
+                                    out.writeObject(allCustomerName.get(i));}
+                            }
                             break;
                     }
                     sendMessage(message);

@@ -14,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.sound.sampled.Line;
@@ -154,7 +155,8 @@ public class StoreInventory
 
         customers = new JComboBox();
         customers.setBounds(100, 130, 160, 25);
-        // get customers
+         getCustomers();
+
         Panel.add(customers);
         //customers.setVisible(!customers.isVisible());
 
@@ -174,10 +176,11 @@ public class StoreInventory
         frame.setVisible(true);
     }
 
-    public String[] getCustomers() {
+    public List<String> getCustomers() {
         ObjectInputStream fromServer;
         ObjectOutputStream toServer;
         String[] customersArr = null;
+        List<String> allCustomerName = null;
 
         try {
             Socket socket = new Socket("localhost", 2004);
@@ -185,11 +188,11 @@ public class StoreInventory
             fromServer = new ObjectInputStream(socket.getInputStream());
             toServer = new ObjectOutputStream(socket.getOutputStream());
             toServer.writeObject(Line);
-            customersArr = (String[]) fromServer.readObject();
+            customers.addItem((String) fromServer.readObject());
         } catch (Exception e1) {
             JOptionPane.showMessageDialog(null, e1.getMessage());
         }
-        return customersArr;
+        return allCustomerName;
     }
 
     public void updateProducts(){

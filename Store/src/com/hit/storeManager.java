@@ -16,7 +16,7 @@ public class storeManager
     public static Product product = new Product();
 
     public static Branch getBranch(String branchName){
-        if(TLVStore.getBranchName()==branchName)
+        if(TLVStore.getBranchName().equals(branchName))
             return TLVStore;
         else return HaifaStore;
     }
@@ -43,31 +43,22 @@ public class storeManager
 
     public static Customer createCustomer(String[] input){
         Customer customerType = null;
-        JsonFormat jsonFormat = new JsonFormat("C:\\java project\\Customers.txt");
         String stringJson;
         switch (input[1])
         {
             case "NewCustomer":
                 customerType = new NewCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5].equals("TLV"))
-                    storeManager.TLVStore.addNewCustomer(customerType);
-                else storeManager.HaifaStore.addNewCustomer(customerType);
                 break;
             case "ReturningCustomer":
                 customerType = new ReturningCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5].equals("TLV"))
-                    storeManager.TLVStore.addReturningCustomer(customerType);
-                else storeManager.HaifaStore.addReturningCustomer(customerType);
                 break;
             case "VIPCustomer":
                 customerType = new VIPCustomer(input[2], input[3], input[4], input[5]);
-                if(input[5].equals("TLV"))
-                    storeManager.TLVStore.addVIPCustomer(customerType);
-                else storeManager.HaifaStore.addVIPCustomer(customerType);
                 break;
         }
-        stringJson = jsonFormat.toJsonObject(customerType);
-        jsonFormat.writeFile(stringJson);
+        if(input[5].equals("TLV"))
+            storeManager.TLVStore.addCustomer(customerType);
+        else storeManager.HaifaStore.addCustomer(customerType);
         return customerType;
     }
 

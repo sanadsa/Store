@@ -1,6 +1,7 @@
 package com.hit;
 
 import com.google.gson.Gson;
+import com.hit.customer.customerType;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.JSONObject;
 import sun.util.resources.cldr.lv.TimeZoneNames_lv;
@@ -84,10 +85,10 @@ public class Report {
         jsonFormat = new JsonFormat("C:\\java project\\vipReport.txt");
 
         if(branch.equals("TLV")) {
-            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getVipCustomers());
+            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getCustomerByType(customerType.VIP));
         }
         else {
-            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getVipCustomers());
+            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getCustomerByType(customerType.VIP));
         }
 
         jsonFormat.writeFile(stringJson);

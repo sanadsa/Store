@@ -40,19 +40,53 @@ public class JsonFormat {
         }
     }
 
-    public void toJson(Worker input)
+    public void toJson(Person input)
     {
         JSONObject tempJson= new JSONObject(input);
-        fromJson();
-        jsonArray.put(tempJson);
         try
         {
-            mainJson.put("employee", jsonArray);
+            if(input instanceof Worker ) {
+                fromJson();
+                mainJson.put("employee", jsonArray);
+            }
+            else
+                {
+                    fromJsonCustomer();
+                    mainJson.put("customer", jsonArray);
+                }
+            jsonArray.put(tempJson);
             out = new PrintWriter(new BufferedWriter(new FileWriter(jsonPath,false)));
             out.print("");
             out.println(mainJson);
             out.flush();
             out.close();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void fromJsonCustomer() {
+        org.json.simple.JSONObject jsonObject;
+        try
+        {
+            storeManager.HaifaStore.getAllCustomers().clear();
+            storeManager.TLVStore.getAllCustomers().clear();
+            jsonObject = (org.json.simple.JSONObject) parser.parse(new FileReader(jsonPath));
+            String s= jsonObject.toString();
+            mainJson =new JSONObject(s);
+            jsonArray = mainJson.getJSONArray("customer");
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject temp = jsonArray.getJSONObject(i);
+                String[] allProperties = new String[6];
+                allProperties[2] = (String) temp.get("name");
+                allProperties[3] = (String) temp.get("id");
+                allProperties[4] = (String) temp.get("phone");
+                allProperties[5] = (String) temp.get("branch");
+                allProperties[1] = (String) temp.get("type");
+                storeManager.createCustomer(allProperties);
+            }
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -79,39 +113,20 @@ public class JsonFormat {
             for (int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject temp = jsonArray.getJSONObject(i);
-                String[] allProperties = new String[8];
-                allProperties[2] = (String) temp.get("name");
-                allProperties[3] = (String) temp.get("id");
-                allProperties[4] = (String) temp.get("phone");
-                allProperties[6]  = (String) temp.get("numberAcount");
-                allProperties[7]  = (String) temp.get("password");
-                allProperties[5] = (String) temp.get("branch");
-                allProperties[1] = (String) temp.get("type");
-                storeManager.createWorkerAndInsert(allProperties);
+                String[] p = new String[8];
+                p[2] = (String) temp.get("name");
+                p[3] = (String) temp.get("id");
+                p[4] = (String) temp.get("phone");
+                p[6]  = (String) temp.get("numberAcount");
+                p[7]  = (String) temp.get("password");
+                p[5] = (String) temp.get("branch");
+                p[1] = (String) temp.get("type");
+                storeManager.createWorkerAndInsert(p);
             }
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-    }
-
-    public String[] fromFile(String path)
-    {
-        org.json.simple.JSONObject jsonObject;
-        String[] array = null;
-        try
-        {
-            jsonObject = (org.json.simple.JSONObject) parser.parse(new FileReader(path));
-            String s = jsonObject.toString();
-            mainJson =new JSONObject(s);
-
-
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        return array;
     }
 
     public void writeFile(String report){

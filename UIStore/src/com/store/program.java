@@ -28,32 +28,7 @@ public class program
 //         System.out.println(Line);
            //     System.out.println(input.readLine()); // Read one line and output it
              //   input.close();
-
-
-            JFrame frame = new JFrame("Store app - LogIn");
-            frame.setSize(300, 150);
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    // Ask for confirmation before terminating the program.
-                    int option = JOptionPane.showConfirmDialog(
-                            frame,
-                            "Are you sure you want to close the application?",
-                            "Close Confirmation",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-                    if (option == JOptionPane.YES_OPTION) {
-                        System.exit(0);
-                    }
-                }
-            });
-
-            JPanel panel = new JPanel();
-            frame.add(panel);
-            new connection(panel);
-            frame.setVisible(true);
+            new connection();
         }
         catch(Exception e)
         {

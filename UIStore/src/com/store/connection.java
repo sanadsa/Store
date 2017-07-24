@@ -17,8 +17,29 @@ public class connection extends JFrame
 {
     private JPanel panel;
 
-    connection(JPanel panel)
+    connection()
     {
+        JFrame frame = new JFrame("Store app - LogIn");
+        frame.setSize(300, 150);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Ask for confirmation before terminating the program.
+                int option = JOptionPane.showConfirmDialog(
+                        frame,
+                        "Are you sure you want to close the application?",
+                        "Close Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (option == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        JPanel panel = new JPanel();
+        frame.add(panel);
         panel.setLayout(null);
 
         JLabel userLabel = new JLabel("User");
@@ -37,7 +58,7 @@ public class connection extends JFrame
         passwordText.setBounds(100, 40, 160, 25);
         panel.add(passwordText);
 
-        JButton loginButton = new JButton("login:");
+        JButton loginButton = new JButton("login");
         loginButton.setBounds(10, 80, 80, 25);
         loginButton.addActionListener(new ActionListener()
         {
@@ -46,7 +67,7 @@ public class connection extends JFrame
             {
                 ObjectInputStream fromServer;
                 ObjectOutputStream  toServer;
-                if( userText.getText()=="" || passwordText.getText().equals(""))
+                if( userText.getText().equals("") || passwordText.getText().equals(""))
                 {
                    registerForm.msgbox("pleas fill all!");
                 }
@@ -73,11 +94,19 @@ public class connection extends JFrame
                         catch (Exception e1){
                             JOptionPane.showMessageDialog(null, e1.getMessage());}
                     }
+                try
+                {
+                    this.finalize();
+                    frame.setVisible(false);
+                } catch (Throwable throwable)
+                {
+                    throwable.printStackTrace();
+                }
             }
         });
         panel.add(loginButton);
 
-        JButton registerButton = new JButton("register:");
+        JButton registerButton = new JButton("register");
         registerButton.setBounds(180, 80, 80, 25);
         registerButton.addActionListener(new ActionListener()
         {
@@ -88,5 +117,9 @@ public class connection extends JFrame
             }
         });
         panel.add(registerButton);
+
+        panel.setVisible(true);
+        frame.add(panel);
+        frame.setVisible(true);
     }
 }

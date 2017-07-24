@@ -1,8 +1,8 @@
 package com.hit;
 
-import com.hit.customer.NewCustomer;
+import com.hit.customer.*;
 import com.hit.worker.Worker;
-import com.hit.customer.Customer;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +19,10 @@ public class Branch {
     private List<Worker> workerInBranch;
     private List<Product> productsInInventory;
     private int quantityOfSales;
-    private List<Customer> vipCustomers;
+/*    private List<Customer> vipCustomers;
     private List<Customer> returningCustomers;
-    private List<Customer> newCustomers;
+    private List<Customer> newCustomers;*/
+    private List<Customer> allCustomers;
     private Map<Product.productType,Integer> numberOfSales;
 
     public Branch(String branchName, String phoneNumber, String address) {
@@ -30,9 +31,7 @@ public class Branch {
         this.address = address;
         this.productsInInventory = new ArrayList<Product>();
         this.workerInBranch = new ArrayList<Worker>();
-        this.vipCustomers = new ArrayList<Customer>();
-        this.returningCustomers = new ArrayList<Customer>();
-        this.newCustomers = new ArrayList<Customer>();
+        this.allCustomers = new ArrayList<Customer>();
         this.quantityOfSales = 0;
         this.numberOfSales = new HashMap<Product.productType,Integer>();
         for (int i = 0; i < Product.productType.values().length; i++){
@@ -42,24 +41,70 @@ public class Branch {
         System.out.println(Product.productType.values()[3]);
     }
 
+    public List<Customer> getCustomerByType(customerType input){
+        List <Customer> customerByType=null;
+        switch (input)
+        {
+            case VIP:
+                customerByType = new ArrayList<Customer>();
+                for (Customer ViPCustomer: allCustomers)
+                {
+                    if (ViPCustomer instanceof VIPCustomer)
+                    {
+                        customerByType.add(ViPCustomer);
+                    }
+                }
+                break;
+            case Returning:
+                customerByType = new ArrayList<Customer>();
+                for (Customer returnCustomer: allCustomers)
+                {
+                    if (returnCustomer instanceof ReturningCustomer)
+                    {
+                        customerByType.add(returnCustomer);
+                    }
+                }
+                break;
+            case NEW:
+                customerByType = new ArrayList<Customer>();
+                for (Customer newCustomer: allCustomers)
+                {
+                    if (newCustomer instanceof NewCustomer)
+                    {
+                        customerByType.add(newCustomer);
+                    }
+                }
+                break;
+        }
+        return customerByType;
+    }
+
+    public List<Customer> getAllCustomers() {
+        return allCustomers;
+    }
+
+    public void addCustomer(Customer customer) {
+        allCustomers.add(customer);
+    }
+
     public Map<Product.productType, Integer> getNumberOfSales() {
         return numberOfSales;
     }
 
-    public List<Customer> getVipCustomers() {
-        return vipCustomers;
-    }
-
-    public void addVIPCustomer(Customer customer)
-    {
-        this.vipCustomers.add(customer);
-    }
-
-    public void addReturningCustomer(Customer customer) {
-        this.returningCustomers.add(customer);
-    }
-
-    public void addNewCustomer(Customer customer){ this.newCustomers.add(customer); }
+//    public List<Customer> getVipCustomers() {
+//        return vipCustomers;
+//    }
+//
+//    public void addVIPCustomer(Customer customer)
+//    {
+//        this.vipCustomers.add(customer);
+//    }
+//
+//    public void addReturningCustomer(Customer customer) {
+//        this.returningCustomers.add(customer);
+//    }
+//
+//    public void addNewCustomer(Customer customer){ this.newCustomers.add(customer); }
 
     public void addWorker(Worker workerInput)
     {

@@ -102,8 +102,8 @@ public class addCustomer {
                         toServer.writeObject(Line);
                         Line = (String) fromServer.readObject();
                         System.out.println(Line);
-                        customer = Line;
-                        customers.addItem(customer);
+//                        customer = Line;
+//                        customers.addItem(customer);
                     }
                     catch (Exception e1){
                         JOptionPane.showMessageDialog(null, e1.getMessage());}

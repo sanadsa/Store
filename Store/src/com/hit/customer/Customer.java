@@ -7,27 +7,25 @@ import com.hit.Product;
 public abstract class Customer extends Person
 {
     public int expendedMoney;
-    private customerType type;
+    private String type;
     //private double salePercent;
     private String branch;
-    public enum customerType
-    {
-        NEW,
-        Returning,
-        VIP
-    }
+
     //Product p = new Product();
+
+    public String getBranch() {
+        return branch;
+    }
 
     public Customer(String name, String id, String phone, String branch, customerType type)
     {
         super(name, id, phone);
         this.expendedMoney = 0;
         this.branch = branch;
-        this.type = type;
-        //this.salePercent = salePercent;
+        this.type = type.toString();
     }
 
-    public customerType getType() {
+    public String getType() {
         return type;
     }
 
