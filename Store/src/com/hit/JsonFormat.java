@@ -93,7 +93,25 @@ public class JsonFormat {
         {
             e.printStackTrace();
         }
+    }
 
+    public String[] fromFile(String path)
+    {
+        org.json.simple.JSONObject jsonObject;
+        String[] array = null;
+        try
+        {
+            jsonObject = (org.json.simple.JSONObject) parser.parse(new FileReader(path));
+            String s = jsonObject.toString();
+            mainJson =new JSONObject(s);
+
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return array;
     }
 
     public void writeFile(String report){

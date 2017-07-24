@@ -16,15 +16,15 @@ public abstract class Person
         Phone = phone;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Person{" +
-                "Name='" + Name + '\'' +
-                ", Id='" + Id + '\'' +
-                ", Phone='" + Phone + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString()
+//    {
+//        return "Person{" +
+//                "Name='" + Name + '\'' +
+//                ", Id='" + Id + '\'' +
+//                ", Phone='" + Phone + '\'' +
+//                '}';
+//    }
 
 
     public void setName(String name)

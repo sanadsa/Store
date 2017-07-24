@@ -4,6 +4,7 @@ package com.hit; /**
 
 import com.hit.customer.Customer;
 import com.hit.worker.Worker;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -165,7 +166,7 @@ public class Provider
                             break;
                         case "customer":
                             Customer newCustomer = storeManager.createCustomer(allParameter);
-                            out.writeObject(newCustomer.toString());
+                            out.writeObject(json.toJsonObject(newCustomer));
                             break;
                         case "products":
                             Map<Product.productType, Integer> test = new HashMap<Product.productType, Integer>();
@@ -188,6 +189,10 @@ public class Provider
                             break;
                         case "sell":
                             storeManager.sellProduct(allParameter);
+                            break;
+                        case "getCustomers":
+                            String[] s = json.fromFile("path");
+                            out.writeObject(s);
                             break;
                     }
                     sendMessage(message);

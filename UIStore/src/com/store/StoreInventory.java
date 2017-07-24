@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -24,7 +26,7 @@ public class StoreInventory
     private JPanel Panel;
     JComboBox typeToSearch;
     static JComboBox customers;
-    JButton buy,sell,search, report, addCustomer, showProducts;
+    JButton buy,sell,search, report, addCustomer, showProducts, logOut;
     JLabel branch;
     private String name;
     static String[] values = null;
@@ -32,9 +34,25 @@ public class StoreInventory
 
     public StoreInventory(String nameOfBranch) {
         name = nameOfBranch;
-        JFrame frame = new JFrame("store app");
+        JFrame frame = new JFrame("Store App");
         frame.setSize(300, 150);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Ask for confirmation before terminating the program.
+                int option = JOptionPane.showConfirmDialog(
+                        frame,
+                        "Are you sure you want to close the application?",
+                        "Close Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (option == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
 
         Panel= new JPanel();
         frame.add(Panel);
@@ -48,6 +66,8 @@ public class StoreInventory
         typeToSearch.setBounds(10, 10, 80, 25);
         Panel.add(typeToSearch);
         //typeToSearch.setVisible(!typeToSearch.isVisible());
+
+        updateProducts();
 
         buy=new JButton("buy");
         buy.setLayout(null);
@@ -134,11 +154,42 @@ public class StoreInventory
 
         customers = new JComboBox();
         customers.setBounds(100, 130, 160, 25);
+        // get customers
         Panel.add(customers);
-        customers.setVisible(!customers.isVisible());
+        //customers.setVisible(!customers.isVisible());
+
+        logOut=new JButton("logOut");
+        //logOut.setLayout(null);
+        logOut.setBounds(10, 10, 80, 25);
+        logOut.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        Panel.add(logOut);
 
         Panel.setVisible(true);
         frame.setVisible(true);
+    }
+
+    public String[] getCustomers() {
+        ObjectInputStream fromServer;
+        ObjectOutputStream toServer;
+        String[] customersArr = null;
+
+        try {
+            Socket socket = new Socket("localhost", 2004);
+            String Line = "getCustomers" + "," + name;
+            fromServer = new ObjectInputStream(socket.getInputStream());
+            toServer = new ObjectOutputStream(socket.getOutputStream());
+            toServer.writeObject(Line);
+            customersArr = (String[]) fromServer.readObject();
+        } catch (Exception e1) {
+            JOptionPane.showMessageDialog(null, e1.getMessage());
+        }
+        return customersArr;
     }
 
     public void updateProducts(){
