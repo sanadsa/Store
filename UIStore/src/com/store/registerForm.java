@@ -18,10 +18,11 @@ JButton submit;
     private String BranchPhoneTLV="03-2323232";
     private String BranchPhoneHaifa="02-2323232";
     private JPanel panel= new JPanel();;
-private Socket sockt;
+    private Socket sockt;
+
     public registerForm(Socket socket)
     {
-        sockt=socket;
+        sockt = socket;
         JFrame frame = new JFrame("register");
         frame.setSize(250, 450);
 
@@ -100,14 +101,14 @@ private Socket sockt;
                 ObjectOutputStream toServer;
 
                 if((String)typeWork.getSelectedItem()=="" || nameT.getText()=="" || idT.getText()==""
-               || phoneT.getText()=="" ||branchNameT.getSelectedItem()==""||acountNumberT.getText()==""||
-                        passwordField.getText().equals(""))
+                     || phoneT.getText()=="" ||branchNameT.getSelectedItem()==""||acountNumberT.getText()==""||
+                      passwordField.getText().equals(""))
                 {
                     msgbox("pleas fill all!");
                 }
                 else
                     {
-                        try
+                        try // register new worker to DB
                         {
                             fromServer = new ObjectInputStream(sockt.getInputStream());
                             toServer = new ObjectOutputStream(sockt.getOutputStream());
@@ -119,27 +120,26 @@ private Socket sockt;
                             Line = (String) fromServer.readObject();
                             System.out.println(Line);
                         }
-                        catch (Exception e1){
-                            JOptionPane.showMessageDialog(null, e1.getMessage());}
+                        catch (Exception e1)
+                        {
+                            JOptionPane.showMessageDialog(null, e1.getMessage());
                         }
-
+                    }
                 try
                 {
                     this.finalize();
                     frame.setVisible(false);
-                } catch (Throwable throwable)
+                }
+                catch (Throwable throwable)
                 {
                     throwable.printStackTrace();
                 }
-                //new worker
-                        // add worker to branch
-                    }
+            }
         });
 
         panel.setVisible(true);
         frame.add(panel);
         frame.setVisible(true);
-
     }
 
     public static void msgbox(String s)

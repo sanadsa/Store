@@ -91,21 +91,6 @@ public class Branch {
         return numberOfSales;
     }
 
-//    public List<Customer> getVipCustomers() {
-//        return vipCustomers;
-//    }
-//
-//    public void addVIPCustomer(Customer customer)
-//    {
-//        this.vipCustomers.add(customer);
-//    }
-//
-//    public void addReturningCustomer(Customer customer) {
-//        this.returningCustomers.add(customer);
-//    }
-//
-//    public void addNewCustomer(Customer customer){ this.newCustomers.add(customer); }
-
     public void addWorker(Worker workerInput)
     {
         this.workerInBranch.add(workerInput);
@@ -171,12 +156,15 @@ public class Branch {
     //sell
     public void sellProduct(Product.productType product){//, Customer customer) {
         quantityOfSales++; //all sales in branch
+
         //product inventory less one
         int salesOfProduct = numberOfSales.get(product);
         if(salesOfProduct != 0) {
             salesOfProduct--;
         }
+
         numberOfSales.put(product, salesOfProduct);
+
         //customer expended  money
         //customer.expendedMoney += customer.getPrice(product);
     }
@@ -188,7 +176,6 @@ public class Branch {
                 int ind = this.numberOfSales.get(Product.productType.values()[i]);
                 this.numberOfSales.put(Product.productType.values()[i], ind+1);
             }
-            System.out.println("%%%"+this.numberOfSales.get(Product.productType.values()[1]));
         }catch (Exception e){
             System.out.println("buy exception: " + e.getMessage());
         }

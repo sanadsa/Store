@@ -28,16 +28,18 @@ public class StoreInventory
     JComboBox typeToSearch;
     static JComboBox customers;
     JButton buy,sell,search, report, addCustomer, showProducts, logOut;
-    JLabel branch;
+    JLabel branch, customersLabel, productsLabel;
     private String name;
     static String[] values = null;
     static String customer = null;
-private Socket sockt;
-    public StoreInventory(String nameOfBranch,Socket socket) {
-        sockt=socket;
+    private Socket sockt;
+
+    public StoreInventory(String nameOfBranch, Socket socket) {
+        sockt = socket;
         name = nameOfBranch;
+
         JFrame frame = new JFrame("Store App");
-        frame.setSize(300, 150);
+        frame.setSize(300, 170);
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -56,12 +58,16 @@ private Socket sockt;
             }
         });
 
-        Panel= new JPanel();
-        frame.add(Panel);
+        Panel = new JPanel();
+        frame.setResizable(false);
 
         branch = new JLabel(nameOfBranch);
         branch.setBounds(100, 130, 160, 25);
         Panel.add(branch);
+
+        productsLabel = new JLabel("Products inventory: ");
+        productsLabel.setBounds(100, 130, 160, 25);
+        Panel.add(productsLabel);
 
         typeToSearch = new JComboBox();
         updateProducts();
@@ -105,7 +111,6 @@ private Socket sockt;
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                //new CustomersForm();
                 ObjectInputStream fromServer;
                 ObjectOutputStream toServer;
 
@@ -132,12 +137,22 @@ private Socket sockt;
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new addCustomer(name,sockt);
+                new addCustomer(name, sockt);
                 getCustomers();
                 customers.setVisible(true);
             }
         });
         Panel.add(addCustomer);
+
+        customersLabel = new JLabel("Customers in " + nameOfBranch + ": ");
+        customersLabel.setBounds(100, 130, 160, 25);
+        Panel.add(customersLabel);
+
+        customers = new JComboBox();
+        customers.setBounds(100, 130, 160, 25);
+        getCustomers();
+        Panel.add(customers);
+        //customers.setVisible(!customers.isVisible());
 
         report=new JButton("report");
         report.setLayout(null);
@@ -147,17 +162,10 @@ private Socket sockt;
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                new ReportForm(name,sockt);
+                new ReportForm(name, sockt);
             }
         });
         Panel.add(report);
-
-        customers = new JComboBox();
-        customers.setBounds(100, 130, 160, 25);
-         getCustomers();
-
-        Panel.add(customers);
-        //customers.setVisible(!customers.isVisible());
 
         logOut=new JButton("logOut");
         //logOut.setLayout(null);
@@ -167,11 +175,13 @@ private Socket sockt;
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
+                new connection(sockt);
             }
         });
         Panel.add(logOut);
 
         Panel.setVisible(true);
+        frame.add(Panel);
         frame.setVisible(true);
     }
 

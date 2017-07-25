@@ -21,6 +21,11 @@ public class storeManager
         else return HaifaStore;
     }
 
+    /**
+     * create worker by type
+     * @param input all worker parameters
+     * @return new worker
+     */
     public static Worker createWorkerAndInsert(String[] input){
         Worker typeWorker=null;
         switch (input[1])
@@ -41,6 +46,11 @@ public class storeManager
         return typeWorker;
     }
 
+    /**
+     * creates new customer by type
+     * @param input all parameters of customer
+     * @return the created customer
+     */
     public static Customer createCustomer(String[] input){
         Customer customerType = null;
         String stringJson;
@@ -62,6 +72,10 @@ public class storeManager
         return customerType;
     }
 
+    /**
+     * add products to branch
+     * @param input branch
+     */
     public static void addProducts(String[] input){
         if(input[1].equals("TLV"))
             storeManager.TLVStore.addProducts();
@@ -83,6 +97,12 @@ public class storeManager
         return allParameter;
     }
 
+    /**
+     * search for worker in DB
+     * @param name name of the worker
+     * @param Password password of the worker
+     * @return null if the worker didnt found else the worker that was found
+     */
     public static Worker searchWorker(String name, String Password)
     {
         boolean isFound = false;

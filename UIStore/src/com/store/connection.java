@@ -12,14 +12,13 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-
 public class connection extends JFrame
 {
     private JPanel panel;
     private Socket socket;
     connection(Socket sockt)
     {
-        socket=sockt;
+        socket = sockt;
         JFrame frame = new JFrame("Store app - LogIn");
         frame.setSize(300, 150);
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -76,17 +75,17 @@ public class connection extends JFrame
                     {
                         try
                         {
-                            String Line = "search" + "," + userText.getText() + "," + passwordText.getText().toString();
+                              String Line = "search" + "," + userText.getText() + "," + passwordText.getText().toString();
                               fromServer = new ObjectInputStream (socket.getInputStream());
                               toServer = new ObjectOutputStream(socket.getOutputStream());
                               toServer.writeObject(Line);
                               Line = fromServer.readObject().toString();
                               if(Line.equals("null"))
                               {
-                                  JOptionPane.showMessageDialog(null,"the worker not found,register please");
+                                  JOptionPane.showMessageDialog(null,"the worker not found, register please");
                               }
                               else {
-                                  StoreInventory r = new StoreInventory(Line,sockt);
+                                  StoreInventory r = new StoreInventory(Line, sockt);
                               }
                         }
                         catch (Exception e1){

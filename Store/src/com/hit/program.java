@@ -7,9 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-/**
- * Created by snir on 07/06/2017.
- */
 public class program
 {
 
@@ -19,9 +16,8 @@ public class program
         ServerSocket  providerSocket = new ServerSocket(2004, 10);
             while(true){
                 System.out.println("wait to connection");
-                Socket  connection = providerSocket.accept();
+                Socket connection = providerSocket.accept();
                 new Thread(new Provider(connection)).run();
             }
-
     }
 }

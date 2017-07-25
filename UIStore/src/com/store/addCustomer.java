@@ -16,16 +16,15 @@ public class addCustomer {
     JComboBox customerTypeCombo;
     JButton submit;
     private JPanel panel= new JPanel();;
-
     private Socket sockt;
-    public addCustomer(String nameOfBranch,Socket socket)
+
+    public addCustomer(String nameOfBranch, Socket socket)
     {
-        sockt=socket;
+        sockt = socket;
         JFrame frame = new JFrame("Add Customer");
         frame.setSize(250, 450);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        branchName = new JLabel( nameOfBranch);
+        branchName = new JLabel(nameOfBranch);
         branchName.setBounds(10, 130, 80, 25);
         panel.add(branchName);
 
@@ -91,7 +90,6 @@ public class addCustomer {
                         String Line = "customer"+","+(String) customerTypeCombo.getSelectedItem()+","+nameT.getText()+","
                                 +idT.getText()+","+phoneT.getText()+","+branchName.getText();
                         toServer.writeObject(Line);
-
                     }
                     catch (Exception e1){
                         JOptionPane.showMessageDialog(null, e1.getMessage());}

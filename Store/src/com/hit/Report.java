@@ -55,23 +55,19 @@ public class Report {
      * get report of a specific product
      * @param product the product we want to get its report
      */
-    public void showReportOfProduct(String product){
+    public void showReportOfProduct(String product, String branch){
         jsonFormat = new JsonFormat("C:\\java project\\productsReport.txt");
         Product.productType enumProduct = Product.productType.valueOf(product);
         int salesOfProduct;
-        System.out.println(enumProduct);
-//        List<Product> products = branch.getProductsInInventory();
-//        int ind = products.indexOf(product);
-//        if(ind != -1) {
-//            salesOfProduct = products.get(ind).numberOfSales.get(enumProduct); //number of sales of the product <enumProduct>
-//        }
-//        else{
-//            salesOfProduct = 0;
-//        }
-        salesOfProduct = storeManager.TLVStore.getNumberOfSales().get(enumProduct);
-        //String stringJson = jsonFormat.toJson(enumProduct + "" + salesOfProduct);
-        stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getNumberOfSales());
-        System.out.println(stringJson);
+
+        if(branch.equals("TLV")) {
+            salesOfProduct = storeManager.TLVStore.getNumberOfSales().get(enumProduct);
+            stringJson = jsonFormat.toJsonObject(storeManager.TLVStore.getNumberOfSales());
+        } else {
+            salesOfProduct = storeManager.HaifaStore.getNumberOfSales().get(enumProduct);
+            stringJson = jsonFormat.toJsonObject(storeManager.HaifaStore.getNumberOfSales());
+        }
+
         jsonFormat.writeFile(stringJson);
     }
 

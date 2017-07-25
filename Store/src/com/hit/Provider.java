@@ -1,6 +1,4 @@
-package com.hit; /**
- * Created by snir on 01/07/2017.
- */
+package com.hit;
 
 import com.hit.customer.Customer;
 import com.hit.worker.Worker;
@@ -16,26 +14,6 @@ import java.util.Map;
 
 public class Provider implements Runnable
 {
-//    public static BufferedReader DataBaseTLVForRead;
-//    public static BufferedReader DataBaseHiafaForRead;
-//
-//    private static PrintWriter DataBaseTLVForWrite;
-//    private static PrintWriter DataBaseHiafaforWrite;
-//
-//    static
-//    {
-//        try
-//        {
-//            DataBaseHiafaforWrite = new PrintWriter(new BufferedWriter
-//                    (new FileWriter("C:\\dev\\java\\text1.txt")));
-//            DataBaseTLVForWrite =new PrintWriter( new BufferedWriter
-//                    (new FileWriter("C:\\dev\\java\\text.txt")));
-//        }
-//        catch (final IOException e) {
-//        throw new ExceptionInInitializerError(e.getMessage());
-//        }
-//    }
-
     ServerSocket providerSocket;
     Socket connection = null;
     ObjectOutputStream out;
@@ -44,13 +22,16 @@ public class Provider implements Runnable
     private JsonFormat json;
     private JsonFormat jsonCastomer;
 
+    /**
+     * ctor
+     * @param socket
+     */
     public Provider(Socket socket)
     {
-        connection=socket;
+        connection = socket;
         json = new JsonFormat("C:\\java project\\worker.txt");
         jsonCastomer = new JsonFormat("C:\\java project\\Customers.txt");
     }
-
 
     public void sendMessage(String msg)
     {
@@ -64,13 +45,18 @@ public class Provider implements Runnable
             ioException.printStackTrace();
         }
     }
-     @Override
+
+    @Override
     public void run()
     {
         try
         {
-
-            System.out.println("Connection received from " + connection.getInetAddress().getHostName());
+            /*//1. creating a server socket
+            providerSocket = new ServerSocket(2004, 10);
+            //2. Wait for connection
+            System.out.println("Waiting for connection");
+            connection = providerSocket.accept();
+            System.out.println("Connection received from " + connection.getInetAddress().getHostName());*/
             //3. get Input and Output streams
             out = new ObjectOutputStream(connection.getOutputStream());
             out.flush();
@@ -81,6 +67,8 @@ public class Provider implements Runnable
                     message = (String) in.readObject();
                     System.out.println(message);
                     String[] allParameter = storeManager.getAction(message);
+
+                    // switch for actions that the user can do in the UI
                     switch (allParameter[0])
                     {
                         case "register":
@@ -107,7 +95,7 @@ public class Provider implements Runnable
                                     report.getQuantityOfSales(allParameter[2]);
                                     break;
                                 case "reportOfProduct":
-                                    report.showReportOfProduct(allParameter[2]);
+                                    report.showReportOfProduct(allParameter[2], allParameter[3]);
                                     break;
                                 case "vipCustomers":
                                     report.getVipCustomers(allParameter[2]);
@@ -142,24 +130,34 @@ public class Provider implements Runnable
                             storeManager.sellProduct(allParameter);
                             break;
                         case "getCustomers":
-                            jsonCastomer.fromJsonCustomer();
-                            List<String> allCustomerName=new ArrayList<String>();
-                            if(allParameter[1].equals("TLV")) {
-                                for (Customer customer : storeManager.TLVStore.getAllCustomers()) {
-                                    allCustomerName.add(customer.getName());
+                            if (jsonCastomer != null) {
+                                jsonCastomer.fromJsonCustomer();
+                                List<String> allCustomerName = new ArrayList<String>();
+                                if (allParameter[1].equals("TLV")) {
+                                    for (Customer customer : storeManager.TLVStore.getAllCustomers()) {
+                                        if (customer == null) {
+                                            //out.writeObject("null");
+                                        } else {
+                                            allCustomerName.add(customer.getName());
+                                        }
+                                    }
+                                } else {
+                                    for (Customer customer : storeManager.HaifaStore.getAllCustomers()) {
+                                        if (customer == null) {
+                                            out.writeObject("null");
+                                        } else {
+                                            allCustomerName.add(customer.getName());
+                                        }
+                                    }
                                 }
-                            } else {
-                                for (Customer customer : storeManager.HaifaStore.getAllCustomers()) {
-                                    allCustomerName.add(customer.getName());
+                                if (allCustomerName.isEmpty()) {
+                                    out.writeObject("null");
+                                } else {
+                                    out.writeObject(allCustomerName.size());
+                                    for (int i = 0; i < allCustomerName.size(); i++) {
+                                        out.writeObject(allCustomerName.get(i));
+                                    }
                                 }
-                            }
-                            if(allCustomerName.isEmpty()) {
-                                out.writeObject("null");
-                            }
-                            else {
-                                out.writeObject(allCustomerName.size());
-                            for (int i=0; i<allCustomerName.size(); i++) {
-                                    out.writeObject(allCustomerName.get(i));}
                             }
                             break;
                     }
